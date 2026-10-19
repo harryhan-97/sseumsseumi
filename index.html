@@ -510,6 +510,42 @@ a.btn{text-decoration:none;}
 .fx-excluded{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--ink-faint);}
 .fx-excluded .tag-chip{border:none;cursor:pointer;background:var(--line-soft);color:var(--ink-soft);}
 .stat-sub .btn.sm{padding:4px 10px;font-size:12px;margin-top:2px;}
+.stat-sub.multi{white-space:normal;overflow:visible;display:flex;flex-wrap:wrap;align-items:center;gap:4px 6px;}
+/* v4.5.0 고정비 항목·분류 제안 */
+.fx-chip{display:inline-block;font-size:10.5px;font-weight:700;padding:0 6px;border-radius:5px;background:#E6EDF3;color:#3E6B8C;vertical-align:1px;margin-left:3px;}
+.filter-chip{display:inline-flex;align-items:center;gap:4px;background:#E6EDF3;color:#3E6B8C;font-size:12px;font-weight:600;border-radius:8px;padding:5px 6px 5px 10px;white-space:nowrap;}
+.filter-chip button{background:none;border:none;color:inherit;font-size:15px;line-height:1;padding:0 3px;cursor:pointer;}
+.fx-sug .card-head{margin-bottom:6px;}
+.fx-sug-sec + .fx-sug-sec{margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);}
+.fx-sug-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;}
+.fx-sug-title span{background:var(--line-soft);border-radius:8px;padding:0 7px;font-size:11.5px;}
+.fx-sug-title .btn{margin-left:auto;}
+.fx-sug-list{max-height:300px;overflow-y:auto;}
+.fx-sug-row{display:flex;align-items:center;gap:12px;padding:8px 4px;border-bottom:1px solid var(--line-soft);font-size:13px;}
+.fx-sug-row:last-child{border-bottom:none;}
+.fx-sug-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--green);flex:none;}
+.fx-sug-d{color:var(--ink-faint);font-size:12px;width:62px;flex:none;}
+.fx-sug-t{flex:1;min-width:0;display:flex;flex-direction:column;}
+.fx-sug-t b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fx-sug-t small{font-size:11px;color:var(--ink-faint);}
+.fx-sug-a{font-weight:700;white-space:nowrap;}
+.fx-sug-to{color:#3E6B8C;font-weight:600;font-size:12.5px;white-space:nowrap;max-width:150px;overflow:hidden;text-overflow:ellipsis;}
+.fx-sug-btns{display:flex;gap:4px;flex:none;}
+.fx-ended .fx-name b{color:var(--ink-faint);text-decoration:line-through;}
+.fx-aliases{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+.fx-alias{display:inline-flex;align-items:center;gap:2px;background:var(--line-soft);border-radius:7px;padding:2px 4px 2px 9px;font-size:12px;}
+.fx-alias button{background:none;border:none;color:var(--ink-faint);font-size:14px;padding:0 4px;cursor:pointer;}
+.fx-linked{max-height:220px;overflow-y:auto;border:1px solid var(--line-soft);border-radius:10px;margin-bottom:6px;}
+.fx-linked-row{display:grid;grid-template-columns:86px minmax(0,1fr) auto auto;gap:8px;align-items:center;padding:6px 6px 6px 10px;font-size:12.5px;border-bottom:1px solid var(--line-soft);}
+.fx-linked-row:last-child{border-bottom:none;}
+.fx-linked-row .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fx-linked-row .a{font-weight:600;}
+.fx-linked-row.off{opacity:.45;text-decoration:line-through;}
+.fx-linked .field-hint{padding:10px;}
+.settings-row.unassigned{border-color:#EAC9BC;background:var(--rust-soft);}
+.settings-row.unassigned select{border-color:var(--rust);color:var(--rust);font-weight:700;}
+.imp-fx{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:#3E6B8C;font-weight:600;white-space:nowrap;cursor:pointer;}
+.imp-fx input{accent-color:var(--green);}
 
 /* ---------- FAB ---------- */
 .fab{
@@ -633,6 +669,11 @@ a.btn{text-decoration:none;}
   .data-block{padding:16px;border-radius:14px;}
   .fixed-table tbody th,.fixed-table thead th.fx-corner{min-width:112px;max-width:130px;}
   .fx-name b{max-width:110px;}
+  .fx-sug-row{flex-wrap:wrap;gap:6px 10px;}
+  .fx-sug-d{width:auto;}
+  .fx-sug-t{flex:1 1 60%;}
+  .fx-sug-btns{margin-left:auto;}
+  .fx-sug-title{flex-wrap:wrap;}
   .copy-head{display:none;}
   .copy-row{grid-template-columns:18px minmax(0,1fr) minmax(0,1fr);grid-template-areas:"inc date amt" "inc method cat" "inc merchant memo";gap:6px 8px;padding:12px 0;}
   .copy-row .copy-inc{grid-area:inc;align-self:start;margin-top:9px;}
@@ -873,6 +914,8 @@ a.btn{text-decoration:none;}
         <select id="ledgerMethodFilter" onchange="renderLedger()"><option value="all">전체 수단</option></select>
         <input type="text" id="ledgerSearch" placeholder="거래처·내용 검색" oninput="renderLedger()">
         <label class="settings-check" style="white-space:nowrap;"><input type="checkbox" id="ledgerIssueFilter" onchange="renderLedger()"> 확인필요만</label>
+        <label class="settings-check" style="white-space:nowrap;"><input type="checkbox" id="ledgerFixedOnly" onchange="renderLedger()"> 고정비만</label>
+        <span id="ledgerFixedChip"></span>
         <button class="btn sm secondary" onclick="openSortModal()" id="sortSettingsBtn">
           <svg class="icon" viewBox="0 0 24 24"><line x1="4" y1="6" x2="16" y2="6"></line><line x1="4" y1="12" x2="12" y2="12"></line><line x1="4" y1="18" x2="8" y2="18"></line></svg>
           정렬 설정
@@ -882,6 +925,7 @@ a.btn{text-decoration:none;}
       <div id="bulkBar" class="bulk-bar hidden">
         <span><b id="bulkCount">0</b>건 선택됨</span>
         <button class="btn sm secondary" onclick="openCopyModal()">복사</button>
+        <button class="btn sm secondary" onclick="openFxAssignModal()">고정비 지정</button>
         <button class="btn sm secondary" onclick="bulkSetCategory()">카테고리 일괄변경</button>
         <button class="btn sm danger" onclick="bulkDelete()" style="border-color:#E7E4D6;color:#F4F1E4;background:none;">선택 삭제</button>
       </div>
@@ -897,15 +941,19 @@ a.btn{text-decoration:none;}
         <div>
           <div class="view-title">고정비</div>
         </div>
+        <button class="btn" onclick="openFixedItemModal(null)">
+          <svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          항목 추가
+        </button>
       </div>
       <div class="stat-row" id="fixedStatRow"></div>
+      <div class="card fx-sug hidden" id="fixedSuggestWrap" style="margin-bottom:16px;"></div>
       <div class="card">
         <div class="card-head">
           <div class="section-label" id="fixedRange">월별 고정비</div>
           <div class="legend fx-legend"><span><i style="color:var(--rust);">▲</i>전월보다 증가</span><span><i style="color:var(--green);">▼</i>감소</span></div>
         </div>
         <div class="fixed-scroll" id="fixedTableWrap"></div>
-        <div id="fixedExcludedWrap"></div>
       </div>
     </section>
 
@@ -952,6 +1000,7 @@ a.btn{text-decoration:none;}
 
       <div id="importPreviewWrap" class="hidden" style="margin-top:28px;">
         <div class="section-label" id="importSummary"></div>
+        <div class="field-hint" id="importFixedBar" style="margin:-4px 0 10px;"></div>
         <div class="table-scroll">
           <table class="data-table" id="importPreviewTable"></table>
         </div>
@@ -1347,6 +1396,10 @@ a.btn{text-decoration:none;}
             <div class="field-hint">해외·여행항공·면세점·특급호텔·골프 입력 시 현플/현골 마일리지 특별배율이 자동 적용됩니다</div>
           </div>
           <div class="field-suggest span2" id="categorySuggest" style="grid-column:1/-1;"></div>
+          <div class="field span2" id="f_fixed_wrap"><label>고정비 항목</label>
+            <select id="f_fixed" onchange="updateTxFixedSuggest()"></select>
+            <div class="field-suggest" id="f_fixedSuggest"></div>
+          </div>
           <div class="field span2 hidden" id="f_mrExcluded_wrap">
             <label class="settings-check"><input type="checkbox" id="f_mrExcluded"> 이 거래는 MR 적립 대상이 아님 (적립 0으로 처리)</label>
             <div class="field-hint">현플·현골로 결제했어도 간혹 카드사 정책상 적립에서 제외되는 가맹점이 있습니다. 그런 경우 체크해 두세요.</div>
@@ -1650,28 +1703,67 @@ a.btn{text-decoration:none;}
   </div>
 </div>
 
-<!-- ===== 고정비 항목 편집 모달 (v4.3.0) ===== -->
-<div class="modal-overlay hidden" id="fixedRowModalOverlay" onclick="if(event.target===this) closeFixedRowModal()">
-  <div class="modal-box" style="max-width:440px;">
+<!-- ===== 고정비 항목 편집 모달 (v4.5.0) ===== -->
+<div class="modal-overlay hidden" id="fixedItemModalOverlay" onclick="if(event.target===this) closeFixedItemModal()">
+  <div class="modal-box" style="max-width:560px;">
     <div class="modal-header">
-      <div class="modal-title">고정비 항목 편집</div>
-      <button class="modal-close" onclick="closeFixedRowModal()">
-        <svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-      </button>
+      <div class="modal-title" id="fxItemModalTitle">고정비 항목</div>
+      <button class="modal-close" onclick="closeFixedItemModal()"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
     </div>
     <div class="modal-body">
-      <div class="field-hint" id="fxr_info" style="margin-bottom:14px;"></div>
-      <div class="form-grid" style="grid-template-columns:1fr;">
-        <div class="field"><label>이름 (거래처)</label><input type="text" id="fxr_name"></div>
-        <div class="field"><label>구분</label><select id="fxr_cat"></select></div>
-        <label class="settings-check"><input type="checkbox" id="fxr_exclude"> 고정비 목록에서 제외</label>
+      <div class="form-grid">
+        <div class="field span2"><label>이름</label><input type="text" id="fxi_name" placeholder="예: 통신비"></div>
+        <div class="field"><label>비목(구분)</label><select id="fxi_cat"></select></div>
+        <div class="field"><label>주기</label><select id="fxi_cycle"><option value="1">매월</option><option value="2">격월</option><option value="3">분기</option><option value="12">연간</option></select></div>
+        <div class="field"><label>예상 금액 (원)</label><input type="text" inputmode="numeric" id="fxi_amount" oninput="formatAmtField(this)"></div>
+        <div class="field"><label>결제일</label><input type="number" id="fxi_day" min="1" max="31" placeholder="1~31"></div>
+        <div class="field"><label>결제수단</label><select id="fxi_method"></select></div>
+        <div class="field" style="justify-content:flex-end;"><label class="settings-check"><input type="checkbox" id="fxi_ended"> 해지(더 이상 결제 안 함)</label></div>
+        <div class="field span2"><label>별칭</label>
+          <div class="fx-aliases" id="fxi_aliases"></div>
+          <div style="display:flex;gap:6px;"><input type="text" id="fxi_alias_new" placeholder="예: 릴리스에이아이" style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();fxAliasAdd();}"><button type="button" class="btn sm secondary" onclick="fxAliasAdd()">추가</button></div>
+        </div>
+        <div class="field span2" id="fxi_linked_wrap"><label>연결된 거래 <span class="field-hint" id="fxi_linked_count"></span></label>
+          <div class="fx-linked" id="fxi_linked"></div>
+          <label class="settings-check"><input type="checkbox" id="fxi_applyCat"> 연결된 거래의 구분도 이 비목으로 변경</label>
+        </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn ghost" onclick="fixedRowGoLedger()">거래내역 보기</button>
+      <div style="display:flex;gap:6px;">
+        <button type="button" class="btn danger hidden" id="fxiDeleteBtn" onclick="deleteFixedItem()">삭제</button>
+        <button type="button" class="btn ghost hidden" id="fxiLedgerBtn" onclick="fixedItemGoLedger()">거래내역 보기</button>
+      </div>
       <div class="btn-group">
-        <button type="button" class="btn secondary" onclick="closeFixedRowModal()">취소</button>
-        <button type="button" class="btn" onclick="saveFixedRow()">전체 적용</button>
+        <button type="button" class="btn secondary" onclick="closeFixedItemModal()">취소</button>
+        <button type="button" class="btn" onclick="saveFixedItem()">저장</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 선택 거래 고정비 지정 모달 (v4.5.0) ===== -->
+<div class="modal-overlay hidden" id="fxAssignModalOverlay" onclick="if(event.target===this) closeFxAssignModal()">
+  <div class="modal-box" style="max-width:440px;">
+    <div class="modal-header">
+      <div class="modal-title">고정비 지정</div>
+      <button class="modal-close" onclick="closeFxAssignModal()"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="field-hint" id="fxa_count" style="margin-bottom:12px;"></div>
+      <div class="form-grid" style="grid-template-columns:1fr;">
+        <div class="field"><label>고정비 항목</label><select id="fxa_target" onchange="onFxAssignTargetChange()"></select></div>
+        <div id="fxa_new_wrap" class="form-grid" style="grid-template-columns:1fr 1fr;">
+          <div class="field span2"><label>새 항목 이름</label><input type="text" id="fxa_name"></div>
+          <div class="field"><label>비목(구분)</label><select id="fxa_cat"></select></div>
+          <div class="field"><label>주기</label><select id="fxa_cycle"><option value="1">매월</option><option value="2">격월</option><option value="3">분기</option><option value="12">연간</option></select></div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn-group">
+        <button type="button" class="btn secondary" onclick="closeFxAssignModal()">취소</button>
+        <button type="button" class="btn" onclick="applyFxAssign()">적용</button>
       </div>
     </div>
   </div>
@@ -2238,7 +2330,7 @@ function parseStandardWorkbook(XLSXutils, workbook) {
 
 const STORAGE_KEY = 'ledger_app_v1';
 const BRAND_KEY = 'ledger_brand_name';
-const APP_VERSION = 'v4.4.0';
+const APP_VERSION = 'v4.5.0';
 const TEMPLATE_XLSX_BASE64 = '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';
 
 function downloadTemplate() {
@@ -2276,6 +2368,7 @@ function loadState() {
       if (!Array.isArray(parsed.mrAdjustments)) parsed.mrAdjustments = [];
       if (!Array.isArray(parsed.assetAccounts)) parsed.assetAccounts = [];
       if (!Array.isArray(parsed.recurringTemplates)) parsed.recurringTemplates = [];
+      if (!Array.isArray(parsed.fixedItems)) parsed.fixedItems = [];
       if (!Array.isArray(parsed.savingsGoals)) parsed.savingsGoals = [];
       if (typeof parsed.lastBackupAt === 'undefined') parsed.lastBackupAt = null;
       return parsed;
@@ -2291,6 +2384,7 @@ function loadState() {
     mrAdjustments: [],
     assetAccounts: [],
     recurringTemplates: [],
+    fixedItems: [],
     savingsGoals: [],
     lastBackupAt: null,
   };
@@ -2479,6 +2573,7 @@ async function connectGitHubSync(token, passphrase) {
         if (!Array.isArray(STATE.mrAdjustments)) STATE.mrAdjustments = [];
         if (!Array.isArray(STATE.assetAccounts)) STATE.assetAccounts = [];
         if (!Array.isArray(STATE.recurringTemplates)) STATE.recurringTemplates = [];
+        if (!Array.isArray(STATE.fixedItems)) STATE.fixedItems = [];
         if (!Array.isArray(STATE.savingsGoals)) STATE.savingsGoals = [];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
       }
@@ -2571,6 +2666,7 @@ async function checkRemoteOnLoad() {
         if (!Array.isArray(STATE.mrAdjustments)) STATE.mrAdjustments = [];
         if (!Array.isArray(STATE.assetAccounts)) STATE.assetAccounts = [];
         if (!Array.isArray(STATE.recurringTemplates)) STATE.recurringTemplates = [];
+        if (!Array.isArray(STATE.fixedItems)) STATE.fixedItems = [];
         if (!Array.isArray(STATE.savingsGoals)) STATE.savingsGoals = [];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
         cfg.lastSyncedAt = new Date().toISOString();
@@ -2989,6 +3085,7 @@ function openTxModal(type, txId) {
     document.getElementById('txSubmitBtn').textContent = '수정 저장';
     document.getElementById('txDeleteBtn').classList.remove('hidden');
     document.getElementById('txSubmitContinueBtn').classList.add('hidden');
+    populateTxFixedSelect(tx.fixedId || '');
   } else {
     setTxType(type || 'expense');
     // 보고 있는 달에 오늘 날짜가 없으면(예: 31일에 30일까지인 달) 그 달 말일로 맞춘다 — 없는 날짜면 입력칸이 빈칸이 됨
@@ -2999,6 +3096,7 @@ function openTxModal(type, txId) {
     document.getElementById('txSubmitBtn').textContent = '저장';
     document.getElementById('txDeleteBtn').classList.add('hidden');
     document.getElementById('txSubmitContinueBtn').classList.remove('hidden');
+    populateTxFixedSelect('');
   }
   const overlay = document.getElementById('txModalOverlay');
   overlay.classList.remove('hidden');
@@ -3018,6 +3116,7 @@ function setTxType(type) {
   document.getElementById('f_merchant_wrap').classList.toggle('hidden', type === 'income');
   document.getElementById('f_tag_wrap').classList.toggle('hidden', type === 'income');
   document.getElementById('f_deduction_wrap').classList.toggle('hidden', type === 'income');
+  const fxw = document.getElementById('f_fixed_wrap'); if (fxw) fxw.classList.toggle('hidden', type === 'income');
   refreshCategorySelect();
   onCategoryChangeForEvent();
   onMethodChangeForMr();
@@ -3088,6 +3187,8 @@ function submitManualForm(evt) {
     eventType: (TX_TYPE === 'expense' && document.getElementById('f_category').value === '경조사') ? (document.getElementById('f_eventType').value || null) : null,
     mrExcluded: TX_TYPE === 'expense' && !document.getElementById('f_mrExcluded_wrap').classList.contains('hidden') && document.getElementById('f_mrExcluded').checked,
   };
+  const fxSel = TX_TYPE === 'expense' ? document.getElementById('f_fixed').value : '';
+  if (fxSel && fxItem(fxSel)) fxLink([tx], fxItem(fxSel)); // 사용자가 고른 고정비 항목에 연결(별칭 학습)
   if (editId) {
     const idx = STATE.transactions.findIndex(t => t.id === editId);
     const before = idx >= 0 ? STATE.transactions[idx] : null;
@@ -3128,6 +3229,7 @@ function resetTxFormForNext() {
   if (keepMethod) document.getElementById('f_method').value = keepMethod;
   onMethodChangeForMr();
   onCategoryChangeForEvent();
+  populateTxFixedSelect('');
   setTimeout(() => document.getElementById(TX_TYPE === 'income' ? 'f_category' : 'f_merchant').focus(), 50);
 }
 function deleteFromModal() {
@@ -3285,6 +3387,9 @@ function getLedgerFilteredRows() {
   if (methodFilter && methodFilter !== 'all') rows = rows.filter(t => t.type === 'expense' && t.method === methodFilter);
   if (q) rows = rows.filter(t => (t.merchant||'').toLowerCase().includes(q) || (t.memo||'').toLowerCase().includes(q));
   if (issueFilter) rows = rows.filter(t => checkTransactionIssues(t).length > 0);
+  const fxOnly = document.getElementById('ledgerFixedOnly');
+  if (fxOnly && fxOnly.checked) rows = rows.filter(fxIsLinked);
+  if (LEDGER_FIXED_ITEM) rows = rows.filter(t => t.fixedId === LEDGER_FIXED_ITEM);
   return rows;
 }
 function renderLedgerSummary(rows) {
@@ -3317,6 +3422,12 @@ function renderLedger() {
   document.getElementById('ledgerIssueCount').textContent = allIssueCount > 0 ? `확인필요 ${allIssueCount}건` : '';
   const rows = getLedgerFilteredRows();
   renderLedgerSummary(rows);
+  const fxChip = document.getElementById('ledgerFixedChip');
+  if (fxChip) {
+    const it = fxItem(LEDGER_FIXED_ITEM);
+    if (LEDGER_FIXED_ITEM && !it) LEDGER_FIXED_ITEM = null;
+    fxChip.innerHTML = it ? `<span class="filter-chip">고정비: ${escapeHtml(it.name)}<button onclick="clearLedgerFixedItem()" aria-label="필터 해제">×</button></span>` : '';
+  }
 
   rows.sort((a, b) => {
     for (const level of LEDGER_SORT_LEVELS) {
@@ -3356,7 +3467,7 @@ function renderLedger() {
       <td>${t.date}</td>
       <td><span class="type-chip ${t.type}">${t.type==='income'?'수입':'지출'}</span></td>
       <td>${t.method||'—'}</td>
-      <td>${escapeHtml(t.category)}</td>
+      <td>${escapeHtml(t.category)}${fxIsLinked(t) ? ` <span class="fx-chip" title="고정비: ${escapeHtml(fxItem(t.fixedId).name)}">고정</span>` : ''}</td>
       <td>${escapeHtml(t.merchant||'—')}</td>
       <td>${escapeHtml(t.memo||'')}</td>
       <td class="amt">${won(t.amount)}</td>
@@ -3397,7 +3508,7 @@ function buildLedgerCardsHtml(rows, allSelected) {
     const usedMemoAsTitle = title === t.memo;
     const sub = [];
     if (!byDate) sub.push(t.date.slice(5).replace('-', '.'));
-    sub.push(escapeHtml(t.category));
+    sub.push(escapeHtml(t.category) + (fxIsLinked(t) ? ' <span class="fx-chip">고정</span>' : ''));
     if (!isInc && t.method) sub.push(escapeHtml(t.method));
     if (t.memo && !usedMemoAsTitle) sub.push(escapeHtml(t.memo));
     if (t.deduction) sub.push('공제 ' + won(t.deduction));
@@ -3494,6 +3605,7 @@ function openCopyModal(srcTxs, targetYm) {
     src: t.id, include: true, type: t.type, date: shiftDateToMonth(t.date, target),
     method: t.method || null, category: t.category, merchant: t.merchant || null, memo: shiftMemoMonths(t.memo || '', ymIndex(target) - ymIndex(monthKey(t.date))),
     amount: t.amount, tag: t.tag || null, deduction: t.deduction || 0, eventType: t.eventType || null, mrExcluded: !!t.mrExcluded,
+    fixedId: (t.fixedId && fxItem(t.fixedId)) ? t.fixedId : null,
   }));
   const sel = document.getElementById('copyMonth');
   const opts = [];
@@ -3563,6 +3675,7 @@ function commitCopy() {
       eventType: (isExp && r.category === '경조사') ? (r.eventType || null) : null,
       mrExcluded: isExp && STATE.settings.mrEligibleMethods.includes(r.method) && !!r.mrExcluded,
     };
+    if (isExp && r.fixedId && fxItem(r.fixedId)) tx.fixedId = r.fixedId; // 고정비 연결 유지
     if (isExp && tx.merchant) STATE.categoryMap[tx.merchant] = tx.category;
     return tx;
   });
@@ -3589,16 +3702,16 @@ function commitCopy() {
   });
 }
 
-// ==================== 고정비 관리 (v4.3.0 → v4.4.0 메모 기준 인식) ====================
-// 인식 기준(v4.4.0): 결제수단·가맹점(PG) 대신 '내용(메모)'으로 묶는다(메모가 비면 거래처). 결제수단은 묶음 기준에서 제외.
-//  1) 설정의 '고정지출' 그룹 구분의 지출을, 메모를 정규화(날짜·회차·숫자·결제/이체/요금 등 꼬리말 제거)한 뒤
-//     글자 유사도(2글자 묶음 Dice ≥ 0.7) 또는 포함 관계(3글자 이상·길이비 0.5 이상)로 같은 항목으로 묶는다.
-//  2) 묶음이 '매달 한 번꼴'이면 고정비: 최근 12개월 중 2개월 이상, 한 달 평균 1.5건 이하, 첫~마지막 결제 사이 달의 50% 이상 결제,
-//     금액 최대/최소 ≤ 3배 또는 결제일 차이 ≤ 7일(2개월뿐이면 이어진 달·1.5배·7일 모두 충족).
-//  3) 묶음 전체가 불규칙하면(예: Apple·네이버페이처럼 정기결제와 일회성 구입이 섞임) 같은 금액끼리 다시 나눠 3개월 이상 반복된 정기 금액만 고정비로.
-//  4) 약 12개월(11~13개월) 간격으로 반복되는 결제는 '연간' 고정비.
-//  5) 택시·카카오T 등 상시 이동 서비스는 정기 결제가 아니므로 제외.
-// 행 = 구분 > 항목, 열 = 보고 있는 달까지 최근 12개월. 모든 수정은 원본 거래(STATE.transactions)에 바로 반영된다.
+// ==================== 고정비 관리 v4.5.0 — 항목 직접 관리 + 별칭 제안 + 자동 추천 ====================
+// 분류는 항상 사용자가 확정한다(포함/해제 모두 사용자 선택). 앱은 '제안'만 한다.
+//  · STATE.fixedItems[] = { id, name, category(비목), cycle(1 매월|2 격월|3 분기|12 연간), amount(예상 금액), day(결제일),
+//                           method, aliases[](정규화 메모·거래처), ignoreTx[](제안에서 '아님' 처리한 거래 id), active, createdAt }
+//  · 거래.fixedId(선택 필드) = 연결된 고정비 항목. 저장 구조는 필드 추가만(하위호환).
+//  · 연결 제안: 아직 연결 안 된 지출 중 별칭이 일치하고(포함 관계 포함) 금액이 예상 금액의 1.5배 이내 → 사용자가 [연결]/[아님]
+//  · 새 고정비 추천: v4.4.0 인식 엔진(메모 유사 묶음·정기 판정·정기 금액 분리·연간·상시 이동 서비스 제외)을
+//    '연결 안 된 지출 전체'에 적용(구분 그룹 제한 없음) → 사용자가 [등록](여러 묶음 합쳐 등록 가능)/[무시]
+//  · 예전 정기거래 템플릿(v1.6.0 탭 제거 후 데이터만 남은 것)도 추천에 표시
+const FIXED_CYCLES = { 1: '매월', 2: '격월', 3: '분기', 12: '연간' };
 const FIXED_ONDEMAND_RE = /택시|카카오\s*t(?![a-z])|kakao\s*t(?![a-z])|카카오\s*모빌리티|kakao\s*mobility|우버|uber|타다|tada|티머니|t-?money|아이엠택시|반반택시|온다택시/i;
 function fixedSourceOf(t) {
   const m = (t.memo || '').trim();
@@ -3663,14 +3776,86 @@ function fixedIsMonthly(list) {
   if (ma / (ymIndex(ms[ms.length - 1]) - ymIndex(ms[0]) + 1) < 0.5) return false;
   return ratio <= 3 || spread <= 7;
 }
-function computeFixedData(endYm) {
-  const s = STATE.settings;
+function fxItems() { if (!Array.isArray(STATE.fixedItems)) STATE.fixedItems = []; return STATE.fixedItems; }
+function fxItem(id) { return id ? (fxItems().find(i => i.id === id) || null) : null; }
+function fxAliasOf(t) { return normFixedText(fixedSourceOf(t).text); }
+function fxLinked(id) { return STATE.transactions.filter(t => t.fixedId === id); }
+function fxIsLinked(t) { return !!(t && t.fixedId && fxItem(t.fixedId)); }
+function fxAliasMatch(al, list) {
+  if (!al) return false;
+  return (list || []).some(a => {
+    if (a === al) return true;
+    const s = a.length <= al.length ? a : al, l = a.length <= al.length ? al : a;
+    return s.length >= 3 && s.length / l.length >= 0.6 && l.includes(s);
+  });
+}
+// 별칭 일치 제안(연결은 사용자가 결정)
+function fxSuggestFor(t) {
+  if (!t || t.type !== 'expense' || fxIsLinked(t)) return null;
+  const al = fxAliasOf(t);
+  for (const it of fxItems()) {
+    if (it.active === false || (t.id && (it.ignoreTx || []).includes(t.id))) continue;
+    if (!fxAliasMatch(al, it.aliases)) continue;
+    if (it.amount > 0 && t.amount > 0 && Math.max(it.amount, t.amount) / Math.min(it.amount, t.amount) > 1.5) continue;
+    return it;
+  }
+  return null;
+}
+function fxMostCommon(arr) { const m = new Map(); arr.forEach(v => m.set(v, (m.get(v) || 0) + 1)); return Array.from(m.entries()).sort((a, b) => b[1] - a[1])[0][0]; }
+// 결제 간격(중앙값)을 매월/격월/분기/연간 중 가까운 값으로
+function fxEstimateCycle(txs) {
+  const ms = Array.from(new Set(txs.map(t => monthKey(t.date)))).sort();
+  if (ms.length < 2) return 1;
+  const gaps = []; for (let i = 1; i < ms.length; i++) gaps.push(ymIndex(ms[i]) - ymIndex(ms[i - 1]));
+  gaps.sort((a, b) => a - b);
+  const g = gaps[Math.floor((gaps.length - 1) / 2)];
+  return g >= 9 ? 12 : g >= 3 ? 3 : g === 2 ? 2 : 1;
+}
+function fxDefaultsFrom(txs) {
+  const sorted = txs.slice().sort((a, b) => a.date.localeCompare(b.date)), latest = sorted[sorted.length - 1];
+  return { name: fxMostCommon(txs.map(t => fixedDisplayName(fixedNameOf(t)))), category: fxMostCommon(txs.map(t => t.category)),
+    cycle: fxEstimateCycle(txs), amount: latest ? latest.amount : null, day: latest ? Number(latest.date.slice(8, 10)) : null, method: latest ? (latest.method || null) : null };
+}
+function fxCreateItem(fields) {
+  const it = Object.assign({ id: uid('fx'), name: '', category: '', cycle: 1, amount: null, day: null, method: null, aliases: [], ignoreTx: [], active: true, createdAt: new Date().toISOString() }, fields);
+  fxItems().push(it);
+  return it;
+}
+function fxLink(txs, it) {
+  txs.forEach(t => {
+    t.fixedId = it.id;
+    const a = fxAliasOf(t);
+    if (a && !it.aliases.includes(a)) it.aliases.push(a);
+    it.ignoreTx = (it.ignoreTx || []).filter(x => x !== t.id);
+  });
+}
+function fxUnlink(txs) { txs.forEach(t => { delete t.fixedId; }); }
+// 실행취소용 스냅샷: 항목 목록 전체 + 거래별 연결 상태
+function fxSnapshot() { return { items: JSON.stringify(fxItems()), links: STATE.transactions.map(t => [t.id, t.fixedId]), excluded: (STATE.settings.fixedExcluded || []).slice() }; }
+function fxRestore(snap) {
+  STATE.fixedItems = JSON.parse(snap.items);
+  const m = new Map(snap.links);
+  STATE.transactions.forEach(t => { const v = m.get(t.id); if (v) t.fixedId = v; else delete t.fixedId; });
+  STATE.settings.fixedExcluded = snap.excluded;
+}
+function fxCommit(label, snap, msg) {
+  logActivity('update', 'transaction', label, null, null);
+  saveState();
+  if (CURRENT_VIEW === 'fixed') renderFixed();
+  if (CURRENT_VIEW === 'ledger') renderLedger();
+  toast(msg, '실행취소', () => {
+    fxRestore(snap);
+    logActivity('undo', 'transaction', `${label} — 취소`, null, null);
+    saveState();
+    if (CURRENT_VIEW === 'fixed') renderFixed();
+    if (CURRENT_VIEW === 'ledger') renderLedger();
+  });
+}
+// 새 고정비 추천: 연결 안 된 지출에 v4.4.0 인식 엔진 적용
+function detectFixedCandidates(endYm) {
   const months = fixedMonths(endYm), mset = new Set(months);
-  const fixedCats = s.expenseCategoryOrder.filter(c => s.expenseCategoryGroups[c] === 'fixed');
-  // v4.3.0 제외 키(구분|이름)도 계속 인정
-  const excluded = new Set((s.fixedExcluded || []).map(k => k.includes('|') && !k.includes('#') ? normFixedText(k.split('|').slice(1).join('|')) : k));
-  // 1) 전체 기간에서 메모 유사도로 묶기(원본 거래는 건드리지 않음)
-  const pool = STATE.transactions.filter(t => t.type === 'expense' && fixedCats.includes(t.category)).slice().sort((a, b) => a.date.localeCompare(b.date));
+  const excluded = new Set((STATE.settings.fixedExcluded || []).map(k => k.includes('|') && !k.includes('#') ? normFixedText(k.split('|').slice(1).join('|')) : k));
+  const pool = STATE.transactions.filter(t => t.type === 'expense' && !fxIsLinked(t)).slice().sort((a, b) => a.date.localeCompare(b.date));
   const info = new Map(), clusters = [];
   pool.forEach(t => {
     const src = fixedSourceOf(t), n = normFixedText(src.text);
@@ -3680,26 +3865,23 @@ function computeFixedData(endYm) {
     if (best && bs >= 0.7) { best.members.push(t); best.norms.add(n); }
     else clusters.push({ norms: new Set([n]), members: [t] });
   });
-  const mostCommon = arr => { const m = new Map(); arr.forEach(v => m.set(v, (m.get(v) || 0) + 1)); return Array.from(m.entries()).sort((a, b) => b[1] - a[1])[0][0]; };
-  const candidates = [];
+  const inWin = list => list.filter(t => mset.has(monthKey(t.date)));
+  const out = [];
   clusters.forEach(c => {
-    if (c.members.some(t => FIXED_ONDEMAND_RE.test(info.get(t.id).src.text) || FIXED_ONDEMAND_RE.test(t.merchant || ''))) return; // 상시 이동 서비스
-    const ck = mostCommon(c.members.map(t => info.get(t.id).n));
-    const inWin = list => list.filter(t => mset.has(monthKey(t.date)));
+    if (c.members.some(t => FIXED_ONDEMAND_RE.test(info.get(t.id).src.text) || FIXED_ONDEMAND_RE.test(t.merchant || ''))) return;
+    const ck = fxMostCommon(c.members.map(t => info.get(t.id).n));
     const win = inWin(c.members);
-    if (win.length && fixedIsMonthly(win)) { candidates.push({ key: ck, kind: 'monthly', members: c.members }); return; }
+    if (win.length && fixedIsMonthly(win)) { out.push({ key: ck, kind: 'monthly', members: c.members }); return; }
     let picked = false;
-    // 3) 같은 금액끼리 나눠 정기 금액만
     const byAmt = new Map();
     c.members.forEach(t => { if (!byAmt.has(t.amount)) byAmt.set(t.amount, []); byAmt.get(t.amount).push(t); });
     byAmt.forEach((list, amt) => {
       const w = inWin(list);
       const wm = new Set(w.map(t => monthKey(t.date))).size;
       // 같은 금액 일회성 2번을 정기로 오인하지 않도록 3개월 이상
-      if (list.length < c.members.length && wm >= 3 && fixedIsMonthly(w)) { candidates.push({ key: `${ck}#${amt}`, kind: 'amount', amount: amt, members: list }); picked = true; }
+      if (list.length < c.members.length && wm >= 3 && fixedIsMonthly(w)) { out.push({ key: `${ck}#${amt}`, kind: 'amount', amount: amt, members: list }); picked = true; }
     });
     if (picked) return;
-    // 4) 연간: 11~13개월 간격·금액 1.5배 이내로 이어지는 결제, 마지막 결제가 최근 12개월 안
     const mem = c.members, ann = new Set();
     for (let i = 1; i < mem.length; i++) {
       const gap = ymIndex(monthKey(mem[i].date)) - ymIndex(monthKey(mem[i - 1].date));
@@ -3707,117 +3889,239 @@ function computeFixedData(endYm) {
       if (gap >= 11 && gap <= 13 && r <= 1.5) { ann.add(mem[i]); ann.add(mem[i - 1]); }
     }
     const annList = mem.filter(t => ann.has(t));
-    // 마지막 연간 결제가 12개월 이내(정확히 12개월 전이면 이번 달이 갱신 달)
-    if (annList.length && monthKey(annList[annList.length - 1].date) >= addMonthsYm(endYm, -12)) candidates.push({ key: `${ck}#y`, kind: 'annual', members: annList });
+    if (annList.length && monthKey(annList[annList.length - 1].date) >= addMonthsYm(endYm, -12)) out.push({ key: `${ck}#y`, kind: 'annual', members: annList });
   });
-  // 2) 행 구성(창 안 거래만 표시)
-  const all = candidates.map(cd => {
-    const win = cd.members.filter(t => mset.has(monthKey(t.date)));
-    const byMonth = {};
-    win.forEach(t => { const ym = monthKey(t.date); (byMonth[ym] = byMonth[ym] || []).push(t); });
-    const basis = win.length ? win : cd.members; // 연간 항목은 창 밖(12개월 전) 결제만 있을 수 있음
-    const latest = basis.slice().sort((a, b) => a.date.localeCompare(b.date)).pop();
-    const r = { key: cd.key, kind: cd.kind, amount: cd.amount, members: cd.members, byMonth, latest, count: win.length,
-      cat: mostCommon(basis.map(t => t.category)), name: mostCommon(basis.map(t => fixedDisplayName(info.get(t.id).src.text))) };
-    // 다음 결제 예정 달: 연간=마지막+12개월, 그 외=마지막+평소 간격(중앙값, 매달=1·격월=2)
-    const act = Object.keys(byMonth).sort(), gaps = [];
-    for (let i = 1; i < act.length; i++) gaps.push(ymIndex(act[i]) - ymIndex(act[i - 1]));
-    gaps.sort((a, b) => a - b);
-    r.cycle = cd.kind === 'annual' ? 12 : (gaps.length ? gaps[Math.floor((gaps.length - 1) / 2)] : 1);
-    r.dueYm = addMonthsYm(monthKey(latest.date), r.cycle);
-    r.monthsActive = Object.keys(byMonth).length;
-    r.firstYm = months.find(m => byMonth[m]);
-    r.sum = ym => (r.byMonth[ym] || []).reduce((a, t) => a + t.amount - (t.deduction || 0), 0);
-    return r;
-  }).filter(r => r.latest);
-  const rows = all.filter(r => !excluded.has(r.key))
-    .sort((a, b) => (fixedCats.indexOf(a.cat) - fixedCats.indexOf(b.cat)) || (b.latest.amount - a.latest.amount));
-  const excludedRows = all.filter(r => excluded.has(r.key));
-  const total = ym => rows.reduce((a, r) => a + r.sum(ym), 0);
-    // 이번 달 미등록: 평소 주기(매달·격월·연간)로 보면 이번 달이 결제 예정인데 아직 없는 것
-  const missing = rows.filter(r => !r.byMonth[endYm] && r.dueYm === endYm);
-  return { months, rows, excludedRows, total, missing, fixedCats };
+  return out.filter(cd => !excluded.has(cd.key)).map(cd => {
+    const d = fxDefaultsFrom(cd.members);
+    if (cd.kind === 'annual') d.cycle = 12;
+    return Object.assign(cd, { defaults: d, months: new Set(inWin(cd.members).map(t => monthKey(t.date))).size });
+  }).sort((a, b) => (b.defaults.amount || 0) - (a.defaults.amount || 0));
 }
-let FIXED_DATA = null;
+// 고정비 탭 데이터: 등록 항목 × 최근 12개월(연결된 거래 기준)
+function computeFixedView(endYm) {
+  const s = STATE.settings, months = fixedMonths(endYm), mset = new Set(months);
+  const order = s.expenseCategoryOrder;
+  const rows = fxItems().map(it => {
+    const linked = fxLinked(it.id).sort((a, b) => a.date.localeCompare(b.date));
+    const byMonth = {};
+    linked.forEach(t => { const ym = monthKey(t.date); if (mset.has(ym)) (byMonth[ym] = byMonth[ym] || []).push(t); });
+    const latest = linked[linked.length - 1] || null;
+    const cycle = Number(it.cycle) || 1;
+    const lastYm = latest ? monthKey(latest.date) : null;
+    const active = it.active !== false;
+    const r = { item: it, id: it.id, name: it.name || '(이름 없음)', cat: it.category || (latest && latest.category) || '', cycle, active, byMonth, latest, linked, lastYm,
+      dueYm: active ? (lastYm ? addMonthsYm(lastYm, cycle) : endYm) : null,
+      expected: it.amount > 0 ? Number(it.amount) : (latest ? latest.amount : 0) };
+    r.sum = ym => (r.byMonth[ym] || []).reduce((a, t) => a + t.amount - (t.deduction || 0), 0);
+    // + 칸: 주기에 맞는 빈 달(마지막 결제 기준), 연결 거래가 없으면 이번 달만
+    r.expectIn = ym => {
+      if (!active || r.byMonth[ym]) return false;
+      if (!lastYm) return ym === endYm;
+      const firstYm = monthKey(linked[0].date);
+      return ym >= firstYm && (ymIndex(ym) - ymIndex(lastYm)) % cycle === 0;
+    };
+    return r;
+  }).sort((a, b) => {
+    const ia = order.indexOf(a.cat), ib = order.indexOf(b.cat);
+    return ((ia < 0 ? 999 : ia) - (ib < 0 ? 999 : ib)) || (b.active - a.active) || (b.expected - a.expected);
+  });
+  const total = ym => rows.reduce((a, r) => a + r.sum(ym), 0);
+  // 이번 달 예정인데 아직 없음(밀린 것 포함)
+  const unpaid = rows.filter(r => r.active && !r.byMonth[endYm] && r.dueYm && r.dueYm <= endYm);
+  return { months, rows, total, unpaid };
+}
+// 분류 제안: (1) 별칭 일치 연결 제안 (2) 새 고정비 추천 (3) 예전 정기거래 템플릿
+function computeFixedSuggestions(endYm) {
+  const from = addMonthsYm(endYm, -12);
+  const link = [];
+  STATE.transactions.forEach(t => {
+    if (t.type !== 'expense' || fxIsLinked(t)) return;
+    const ym = monthKey(t.date);
+    if (ym < from || ym > endYm) return;
+    const it = fxSuggestFor(t);
+    if (it) link.push({ t, it });
+  });
+  link.sort((a, b) => b.t.date.localeCompare(a.t.date));
+  const linkIds = new Set(link.map(x => x.t.id));
+  // 별칭이 기존 항목과 겹치는 묶음은 연결 제안 쪽에서 처리되므로 추천에서 뺀다
+  const cands = detectFixedCandidates(endYm).filter(cd => !cd.members.some(t => linkIds.has(t.id)) && !cd.members.some(t => fxItems().some(it => fxAliasMatch(fxAliasOf(t), it.aliases))));
+  const tpls = (STATE.recurringTemplates || []).filter(tp => tp && !tp.fixedItemId && (tp.type || 'expense') === 'expense' && Number(tp.amount) > 0);
+  return { link, cands, tpls };
+}
+
+let FIXED_DATA = null, FIXED_SUG = null;
+function fxCycleLabel(c) { return FIXED_CYCLES[c] || `${c}개월`; }
 function renderFixed() {
-  const D = FIXED_DATA = computeFixedData(CURRENT_YM);
-  const { months, rows, total, missing } = D;
-  const cur = CURRENT_YM, prev = months[10];
-  const curT = total(cur), prevT = total(prev);
+  const D = FIXED_DATA = computeFixedView(CURRENT_YM);
+  const S = FIXED_SUG = computeFixedSuggestions(CURRENT_YM);
+  const { months, rows, total, unpaid } = D;
+  const cur = CURRENT_YM, prev = months[10], mo = parseInt(cur.slice(5), 10);
+  const curT = total(cur), prevT = total(prev), d = curT - prevT;
   const activeMonths = months.filter(m => total(m) > 0);
   const avg = activeMonths.length ? Math.round(activeMonths.reduce((a, m) => a + total(m), 0) / activeMonths.length) : 0;
-  const d = curT - prevT;
-  const cats = new Set(rows.map(r => r.cat));
+  const activeCnt = rows.filter(r => r.active).length, endedCnt = rows.length - activeCnt;
+  const unpaidSum = unpaid.reduce((a, r) => a + r.expected, 0);
   document.getElementById('fixedStatRow').innerHTML = `
-    <div class="stat stat-expense"><div class="stat-label">${parseInt(cur.slice(5), 10)}월 고정비</div><div class="stat-value">${won(curT)}</div>
+    <div class="stat stat-expense"><div class="stat-label">${mo}월 고정비</div><div class="stat-value">${won(curT)}</div>
       <div class="stat-sub">전월 대비 ${d === 0 ? '<span class="delta flat">변동 없음</span>' : `<span class="delta ${d > 0 ? 'bad' : 'good'}">${d > 0 ? '▲' : '▼'} ${won(Math.abs(d))}</span>`}</div></div>
+    <div class="stat stat-income"><div class="stat-label">${mo}월 미납</div><div class="stat-value">${unpaid.length}건</div>
+      <div class="stat-sub multi">${unpaid.length ? `예정 ${won(unpaidSum)} <button class="btn sm" id="fixedAddMissingBtn" onclick="fixedAddMissing()">한 번에 추가</button>` : '예정 항목 모두 납부'}</div></div>
     <div class="stat stat-yearnet"><div class="stat-label">월평균</div><div class="stat-value">${won(avg)}</div><div class="stat-sub">최근 12개월 중 ${activeMonths.length}개월 기준</div></div>
-    <div class="stat stat-saving"><div class="stat-label">고정비 항목</div><div class="stat-value">${rows.length}개</div><div class="stat-sub">구분 ${cats.size}개</div></div>
-    <div class="stat stat-income"><div class="stat-label">${parseInt(cur.slice(5), 10)}월 미등록</div><div class="stat-value">${missing.length}건</div>
-      <div class="stat-sub">${missing.length ? `<button class="btn sm" id="fixedAddMissingBtn" onclick="fixedAddMissing()">한 번에 추가</button>` : '지난달 항목 모두 등록됨'}</div></div>`;
+    <div class="stat stat-saving"><div class="stat-label">고정비 항목</div><div class="stat-value">${activeCnt}개</div><div class="stat-sub">${endedCnt ? `해지 ${endedCnt}개` : `구분 ${new Set(rows.map(r => r.cat)).size}개`}</div></div>`;
+  renderFixedSuggestions(S);
   document.getElementById('fixedRange').textContent = `월별 고정비 (${months[0].replace('-', '.')} ~ ${cur.replace('-', '.')})`;
   const wrap = document.getElementById('fixedTableWrap');
   if (rows.length === 0) {
-    wrap.innerHTML = '<div class="empty-note" style="border:none;">최근 12개월에 정기적으로 반복되는 고정지출이 없습니다.</div>';
-  } else {
-    const mh = months.map(m => `<th class="fx-m${m === cur ? ' fx-cur' : ''}" title="${monthLabel(m)}">${m.endsWith('-01') || m === months[0] ? `<small>${m.slice(2, 4)}년</small>` : ''}${parseInt(m.slice(5), 10)}월</th>`).join('');
-    let body = '';
-    D.fixedCats.filter(c => cats.has(c)).forEach(cat => {
-      const rs = rows.filter(r => r.cat === cat);
-      body += `<tr class="fx-cat"><th>${escapeHtml(cat)} <span>${rs.length}</span></th>${months.map(m => { const v = rs.reduce((a, r) => a + r.sum(m), 0); return `<td class="${m === cur ? 'fx-cur' : ''}">${v ? v.toLocaleString() : ''}</td>`; }).join('')}</tr>`;
-      rs.forEach(r => {
-        const ri = rows.indexOf(r);
-        const cells = months.map((m, mi) => {
-          const list = r.byMonth[m];
-          const cls = m === cur ? ' fx-cur' : '';
-          if (list) {
-            const v = r.sum(m);
-            const pv = mi > 0 && r.byMonth[months[mi - 1]] ? r.sum(months[mi - 1]) : null;
-            const arrow = pv != null && pv !== v ? `<i class="${v > pv ? 'up' : 'down'}">${v > pv ? '▲' : '▼'}</i>` : '';
-            return `<td class="fx-v${cls}"><button onclick="fixedCellClick(${ri},'${m}')" title="${monthLabel(m)} · ${won(v)}">${arrow}${v.toLocaleString()}${list.length > 1 ? `<sup>×${list.length}</sup>` : ''}</button></td>`;
-          }
-          // + 표시: 연간은 갱신 예정 달만, 격월 등은 주기에 맞는 달만, 매달은 첫 결제 이후 빈 달 모두
-          const expect = r.kind === 'annual' ? m === r.dueYm : (r.firstYm && m >= r.firstYm && (ymIndex(m) - ymIndex(r.firstYm)) % (r.cycle || 1) === 0);
-          if (expect) return `<td class="fx-add${cls}"><button onclick="fixedAddOne(${ri},'${m}')" title="${monthLabel(m)}에 추가" aria-label="${monthLabel(m)}에 추가">+</button></td>`;
-          return `<td class="${cls.trim()}"></td>`;
-        }).join('');
-        const sub = [r.latest.method || '', r.kind === 'amount' ? `${won(r.amount)} 정기` : (r.kind === 'annual' ? '연간' : '')].filter(Boolean).join(' · ');
-        body += `<tr class="fx-item"><th><button class="fx-name" onclick="openFixedRowModal(${ri})"><b>${escapeHtml(r.name)}</b><small>${escapeHtml(sub)}</small></button></th>${cells}</tr>`;
-      });
-    });
-    body += `<tr class="fx-total"><th>합계</th>${months.map(m => `<td class="${m === cur ? 'fx-cur' : ''}">${total(m) ? total(m).toLocaleString() : ''}</td>`).join('')}</tr>`;
-    wrap.innerHTML = `<table class="fixed-table"><thead><tr><th class="fx-corner">구분 / 항목</th>${mh}</tr></thead><tbody>${body}</tbody></table>`;
-    wrap.scrollLeft = wrap.scrollWidth; // 최근 달이 보이도록 오른쪽 끝으로
+    wrap.innerHTML = '<div class="empty-note" style="border:none;">등록된 고정비 항목이 없습니다.</div>';
+    return;
   }
-  const ex = D.excludedRows;
-  document.getElementById('fixedExcludedWrap').innerHTML = ex.length ? `<div class="fx-excluded"><span>제외한 항목</span>${ex.map(r => `<button class="tag-chip" onclick="fixedRestore('${encodeURIComponent(r.key)}')" title="다시 고정비로 표시">${escapeHtml(r.name)} ↺</button>`).join('')}</div>` : '';
+  const mh = months.map(m => `<th class="fx-m${m === cur ? ' fx-cur' : ''}" title="${monthLabel(m)}">${m.endsWith('-01') || m === months[0] ? `<small>${m.slice(2, 4)}년</small>` : ''}${parseInt(m.slice(5), 10)}월</th>`).join('');
+  const cats = []; rows.forEach(r => { if (!cats.includes(r.cat)) cats.push(r.cat); });
+  let body = '';
+  cats.forEach(cat => {
+    const rs = rows.filter(r => r.cat === cat);
+    body += `<tr class="fx-cat"><th>${escapeHtml(cat || '미지정')} <span>${rs.length}</span></th>${months.map(m => { const v = rs.reduce((a, r) => a + r.sum(m), 0); return `<td class="${m === cur ? 'fx-cur' : ''}">${v ? v.toLocaleString() : ''}</td>`; }).join('')}</tr>`;
+    rs.forEach(r => {
+      const cells = months.map((m, mi) => {
+        const list = r.byMonth[m], cls = m === cur ? ' fx-cur' : '';
+        if (list) {
+          const v = r.sum(m);
+          const pv = mi > 0 && r.byMonth[months[mi - 1]] ? r.sum(months[mi - 1]) : null;
+          const arrow = pv != null && pv !== v ? `<i class="${v > pv ? 'up' : 'down'}">${v > pv ? '▲' : '▼'}</i>` : '';
+          return `<td class="fx-v${cls}"><button onclick="fixedCellClick('${r.id}','${m}')" title="${monthLabel(m)} · ${won(v)}">${arrow}${v.toLocaleString()}${list.length > 1 ? `<sup>×${list.length}</sup>` : ''}</button></td>`;
+        }
+        if (r.expectIn(m)) return `<td class="fx-add${cls}"><button onclick="fixedAddOne('${r.id}','${m}')" title="${monthLabel(m)}에 추가" aria-label="${monthLabel(m)}에 추가">+</button></td>`;
+        return `<td class="${cls.trim()}"></td>`;
+      }).join('');
+      const sub = [fxCycleLabel(r.cycle), r.expected ? `예상 ${won(r.expected)}` : '', r.active ? '' : '해지'].filter(Boolean).join(' · ');
+      body += `<tr class="fx-item${r.active ? '' : ' fx-ended'}"><th><button class="fx-name" onclick="openFixedItemModal('${r.id}')"><b>${escapeHtml(r.name)}</b><small>${escapeHtml(sub)}</small></button></th>${cells}</tr>`;
+    });
+  });
+  body += `<tr class="fx-total"><th>합계</th>${months.map(m => `<td class="${m === cur ? 'fx-cur' : ''}">${total(m) ? total(m).toLocaleString() : ''}</td>`).join('')}</tr>`;
+  wrap.innerHTML = `<table class="fixed-table"><thead><tr><th class="fx-corner">구분 / 항목</th>${mh}</tr></thead><tbody>${body}</tbody></table>`;
+  wrap.scrollLeft = wrap.scrollWidth;
 }
-// 칸 클릭: 그 달 거래가 1건이면 바로 수정 창, 여러 건이면 거래내역(그 달·구분·이름 검색)으로
-function fixedCellClick(ri, ym) {
-  const r = FIXED_DATA.rows[ri]; if (!r) return;
+function renderFixedSuggestions(S) {
+  const el = document.getElementById('fixedSuggestWrap');
+  const { link, cands, tpls } = S;
+  if (!link.length && !cands.length && !tpls.length) { el.innerHTML = ''; el.classList.add('hidden'); return; }
+  el.classList.remove('hidden');
+  let h = `<div class="card-head"><div class="section-label">분류 제안</div></div>`;
+  if (link.length) {
+    h += `<div class="fx-sug-sec"><div class="fx-sug-title">연결 제안 <span>${link.length}</span><button class="btn sm secondary" onclick="fxLinkAllSuggested()">모두 연결</button></div><div class="fx-sug-list">` +
+      link.map(({ t, it }) => `<div class="fx-sug-row" data-tx="${t.id}">
+        <span class="fx-sug-d">${t.date.slice(2).replace(/-/g, '.')}</span>
+        <span class="fx-sug-t"><b>${escapeHtml(fixedNameOf(t))}</b><small>${escapeHtml([t.method, t.category].filter(Boolean).join(' · '))}</small></span>
+        <span class="fx-sug-a">${won(t.amount)}</span>
+        <span class="fx-sug-to">→ ${escapeHtml(it.name)}</span>
+        <span class="fx-sug-btns"><button class="btn sm" onclick="fxLinkOne('${t.id}','${it.id}')">연결</button><button class="btn sm ghost" onclick="fxIgnoreOne('${t.id}','${it.id}')">아님</button></span>
+      </div>`).join('') + `</div></div>`;
+  }
+  if (cands.length) {
+    h += `<div class="fx-sug-sec"><div class="fx-sug-title">새 고정비 추천 <span>${cands.length}</span><button class="btn sm secondary" id="fxMergeBtn" onclick="fxRegisterChecked()" disabled>선택 합쳐서 등록</button></div><div class="fx-sug-list">` +
+      cands.map((c, i) => `<div class="fx-sug-row">
+        <input type="checkbox" class="fx-cand-chk" data-i="${i}" onchange="fxUpdateMergeBtn()" aria-label="선택">
+        <span class="fx-sug-t"><b>${escapeHtml(c.defaults.name)}</b><small>${escapeHtml([c.defaults.category, fxCycleLabel(c.defaults.cycle), c.kind === 'amount' ? `${won(c.amount)} 정기` : '', `${c.months}개월`].filter(Boolean).join(' · '))}</small></span>
+        <span class="fx-sug-a">${won(c.defaults.amount || 0)}</span>
+        <span class="fx-sug-btns"><button class="btn sm" onclick="fxRegisterCandidates([${i}])">등록</button><button class="btn sm ghost" onclick="fxIgnoreCandidate(${i})">무시</button></span>
+      </div>`).join('') + `</div></div>`;
+  }
+  if (tpls.length) {
+    h += `<div class="fx-sug-sec"><div class="fx-sug-title">예전 정기거래 <span>${tpls.length}</span></div><div class="fx-sug-list">` +
+      tpls.map((tp, i) => `<div class="fx-sug-row">
+        <span class="fx-sug-t"><b>${escapeHtml(tp.name || tp.memo || tp.merchant || tp.category || '정기거래')}</b><small>${escapeHtml([tp.category, tp.method].filter(Boolean).join(' · '))}</small></span>
+        <span class="fx-sug-a">${won(Number(tp.amount) || 0)}</span>
+        <span class="fx-sug-btns"><button class="btn sm" onclick="fxRegisterTemplate(${i})">등록</button></span>
+      </div>`).join('') + `</div></div>`;
+  }
+  el.innerHTML = h;
+}
+function fxUpdateMergeBtn() {
+  const n = document.querySelectorAll('.fx-cand-chk:checked').length;
+  const b = document.getElementById('fxMergeBtn');
+  if (b) { b.disabled = n < 1; b.textContent = n > 1 ? `선택 ${n}개 합쳐서 등록` : '선택 합쳐서 등록'; }
+}
+function fxLinkOne(txId, itemId) {
+  const t = STATE.transactions.find(x => x.id === txId), it = fxItem(itemId);
+  if (!t || !it) return;
+  const snap = fxSnapshot();
+  fxLink([t], it);
+  fxCommit(`고정비 연결 — ${it.name} · ${txLabel(t)}`, snap, `'${it.name}'에 연결했습니다.`);
+}
+function fxIgnoreOne(txId, itemId) {
+  const it = fxItem(itemId); if (!it) return;
+  const snap = fxSnapshot();
+  it.ignoreTx = Array.from(new Set([...(it.ignoreTx || []), txId]));
+  fxCommit(`고정비 연결 제안 제외 — ${it.name}`, snap, '제안에서 제외했습니다.');
+}
+function fxLinkAllSuggested() {
+  const S = FIXED_SUG; if (!S || !S.link.length) return;
+  const snap = fxSnapshot();
+  S.link.forEach(({ t, it }) => { const tt = STATE.transactions.find(x => x.id === t.id); const ii = fxItem(it.id); if (tt && ii) fxLink([tt], ii); });
+  fxCommit(`고정비 연결 제안 ${S.link.length}건 모두 연결`, snap, `${S.link.length}건을 연결했습니다.`);
+}
+function fxRegisterCandidates(idxs) {
+  const S = FIXED_SUG; if (!S) return;
+  const list = idxs.map(i => S.cands[i]).filter(Boolean);
+  if (!list.length) return;
+  const members = Array.from(new Set(list.flatMap(c => c.members)));
+  const snap = fxSnapshot();
+  const d = list.length === 1 ? list[0].defaults : fxDefaultsFrom(members);
+  if (list.length === 1 && list[0].kind === 'annual') d.cycle = 12;
+  const it = fxCreateItem(d);
+  fxLink(members, it);
+  fxCommit(`고정비 항목 등록 — ${it.name} (${members.length}건 연결)`, snap, `'${it.name}' 항목을 등록했습니다.`);
+}
+function fxRegisterChecked() {
+  const idxs = Array.from(document.querySelectorAll('.fx-cand-chk:checked')).map(e => Number(e.dataset.i));
+  if (idxs.length) fxRegisterCandidates(idxs);
+}
+function fxIgnoreCandidate(i) {
+  const c = FIXED_SUG && FIXED_SUG.cands[i]; if (!c) return;
+  const snap = fxSnapshot();
+  STATE.settings.fixedExcluded = Array.from(new Set([...(STATE.settings.fixedExcluded || []), c.key]));
+  fxCommit(`고정비 추천 무시 — ${c.defaults.name}`, snap, '추천에서 제외했습니다.');
+}
+function fxRegisterTemplate(i) {
+  const tp = FIXED_SUG && FIXED_SUG.tpls[i]; if (!tp) return;
+  const snap = fxSnapshot();
+  const name = tp.name || tp.memo || tp.merchant || tp.category || '정기거래';
+  const it = fxCreateItem({ name, category: tp.category || '', cycle: 1, amount: Number(tp.amount) || null, day: Number(tp.day || tp.dayOfMonth) || null, method: tp.method || null,
+    aliases: [normFixedText(tp.memo || tp.merchant || name)] });
+  tp.fixedItemId = it.id;
+  fxCommit(`예전 정기거래를 고정비 항목으로 등록 — ${name}`, snap, `'${name}' 항목을 등록했습니다.`);
+}
+// 칸 클릭: 1건이면 거래 수정 창, 여러 건이면 그 달·그 항목으로 필터된 거래내역
+function fixedCellClick(itemId, ym) {
+  const r = FIXED_DATA && FIXED_DATA.rows.find(x => x.id === itemId); if (!r) return;
   const list = r.byMonth[ym] || [];
   if (list.length === 1) { openTxModal(null, list[0].id); return; }
-  goLedgerFixed(r, ym);
+  goLedgerFixed(itemId, ym);
 }
-function goLedgerFixed(r, ym) {
-  CURRENT_YM = ym || CURRENT_YM;
-  document.getElementById('monthLabel').textContent = monthLabel(CURRENT_YM);
+let LEDGER_FIXED_ITEM = null;
+function goLedgerFixed(itemId, ym) {
+  if (ym) { CURRENT_YM = ym; document.getElementById('monthLabel').textContent = monthLabel(CURRENT_YM); }
   populateLedgerMonthFilter(); populateLedgerExtraFilters();
   document.getElementById('ledgerMonthFilter').value = ym ? ym : 'all';
-  document.getElementById('ledgerTypeFilter').value = 'expense';
-  document.getElementById('ledgerCatFilter').value = r.cat;
+  document.getElementById('ledgerTypeFilter').value = 'all';
+  document.getElementById('ledgerCatFilter').value = 'all';
   document.getElementById('ledgerMethodFilter').value = 'all';
-  document.getElementById('ledgerSearch').value = r.name === '(이름 없음)' ? '' : r.name;
+  document.getElementById('ledgerSearch').value = '';
   document.getElementById('ledgerIssueFilter').checked = false;
+  LEDGER_FIXED_ITEM = itemId;
   switchView('ledger');
   window.scrollTo(0, 0);
 }
-// 빈 칸 +: 가장 최근 거래 내용으로 그 달 새 거래 창을 미리 채워 연다(저장 전 수정 가능)
-function fixedAddOne(ri, ym) {
-  const r = FIXED_DATA.rows[ri]; if (!r) return;
-  openTxModalFromTemplate(r.latest, shiftDateToMonth(r.latest.date, ym));
+function clearLedgerFixedItem() { LEDGER_FIXED_ITEM = null; renderLedger(); }
+// 빈 칸 +: 이 항목의 최근 거래(없으면 항목 설정값)로 채운 새 거래 창 — 고정비 연결 포함
+function fixedAddOne(itemId, ym) {
+  const r = FIXED_DATA && FIXED_DATA.rows.find(x => x.id === itemId); if (!r) return;
+  const it = r.item;
+  const tpl = r.latest || { date: `${ym}-${String(it.day || 1).padStart(2, '0')}`, method: it.method, category: it.category, merchant: null, memo: it.name, amount: it.amount || 0, deduction: 0, tag: null };
+  const day = it.day || Number(tpl.date.slice(8, 10));
+  openTxModalFromTemplate(tpl, shiftDateToMonth(`${ym}-${String(day).padStart(2, '0')}`, ym), it.id);
 }
-function openTxModalFromTemplate(t, date) {
+function openTxModalFromTemplate(t, date, fixedId) {
   openTxModal('expense');
   document.getElementById('f_date').value = date;
   if (t.method) document.getElementById('f_method').value = t.method;
@@ -3826,81 +4130,189 @@ function openTxModalFromTemplate(t, date) {
   onCategoryChangeForEvent();
   document.getElementById('f_merchant').value = t.merchant || '';
   document.getElementById('f_memo').value = shiftMemoMonths(t.memo || '', ymIndex(monthKey(date)) - ymIndex(monthKey(t.date)));
-  document.getElementById('f_amount').value = Number(t.amount).toLocaleString('en-US');
+  document.getElementById('f_amount').value = Number(t.amount || 0).toLocaleString('en-US');
   document.getElementById('f_deduction').value = Number(t.deduction || 0).toLocaleString('en-US');
   document.getElementById('f_tag').value = t.tag || '';
   document.getElementById('f_mrExcluded').checked = !!t.mrExcluded;
+  populateTxFixedSelect(fixedId || t.fixedId || '');
   hideAutocomplete();
   setTimeout(() => { const a = document.getElementById('f_amount'); a.focus(); a.select(); }, 60);
 }
-// 이번 달 미등록 항목 한 번에: 복사 창(v4.2.0)을 그대로 사용 — 지난달 금액으로 채워지고 항목별 수정·제외 가능
+// 미납 한 번에: 복사 창 재사용(각 항목의 최근 거래, 없으면 항목 설정값)
 function fixedAddMissing() {
-  const D = FIXED_DATA; if (!D || !D.missing.length) return;
-  openCopyModal(D.missing.map(r => r.latest), CURRENT_YM);
+  const D = FIXED_DATA; if (!D || !D.unpaid.length) return;
+  const src = D.unpaid.map(r => r.latest || { id: null, date: `${CURRENT_YM}-${String(r.item.day || 1).padStart(2, '0')}`, type: 'expense', method: r.item.method, category: r.item.category, merchant: null, memo: r.item.name, amount: r.item.amount || 0, deduction: 0, fixedId: r.id });
+  openCopyModal(src, CURRENT_YM);
 }
-// 행 편집: 이름(메모, 메모가 없던 거래는 거래처)·구분을 이 항목의 모든 거래(전체 기간)에 일괄 적용, 고정비 목록에서 제외
-let FIXED_EDIT = null;
-function openFixedRowModal(ri) {
-  const r = FIXED_DATA.rows[ri]; if (!r) return;
-  const txs = r.members.slice();
-  FIXED_EDIT = { key: r.key, ids: txs.map(t => t.id), row: r };
-  document.getElementById('fxr_name').value = r.name === '(이름 없음)' ? '' : r.name;
-  document.getElementById('fxr_cat').innerHTML = STATE.settings.expenseCategoryOrder.map(c => `<option value="${escapeHtml(c)}"${c === r.cat ? ' selected' : ''}>${escapeHtml(c)}</option>`).join('');
-  document.getElementById('fxr_exclude').checked = false;
-  const total = txs.reduce((a, t) => a + t.amount, 0);
-  document.getElementById('fxr_info').innerHTML = `전체 ${txs.length}건 · ${won(total)} · 최근 ${txs.map(t => t.date).sort().pop()}`;
-  const overlay = document.getElementById('fixedRowModalOverlay');
+
+// ---------- 고정비 항목 편집 창 ----------
+let FX_EDIT = null;
+function openFixedItemModal(itemId) {
+  const it = fxItem(itemId);
+  const s = STATE.settings;
+  FX_EDIT = { id: it ? it.id : null, aliases: it ? (it.aliases || []).slice() : [], unlink: new Set() };
+  document.getElementById('fxItemModalTitle').textContent = it ? '고정비 항목 편집' : '고정비 항목 추가';
+  document.getElementById('fxi_name').value = it ? it.name : '';
+  const cat = it ? it.category : (s.expenseCategoryOrder.find(c => s.expenseCategoryGroups[c] === 'fixed') || s.expenseCategoryOrder[0]);
+  document.getElementById('fxi_cat').innerHTML = buildSelectOptions(s.expenseCategoryOrder, cat, '').replace(/^<select >|<\/select>$/g, '');
+  document.getElementById('fxi_cycle').value = String(it ? (it.cycle || 1) : 1);
+  document.getElementById('fxi_amount').value = it && it.amount ? Number(it.amount).toLocaleString('en-US') : '';
+  document.getElementById('fxi_day').value = it && it.day ? it.day : '';
+  document.getElementById('fxi_method').innerHTML = '<option value="">지정 안 함</option>' + s.methods.map(m => `<option value="${escapeHtml(m)}"${it && it.method === m ? ' selected' : ''}>${escapeHtml(m)}</option>`).join('');
+  document.getElementById('fxi_ended').checked = !!(it && it.active === false);
+  document.getElementById('fxi_applyCat').checked = false;
+  document.getElementById('fxi_alias_new').value = '';
+  document.getElementById('fxiDeleteBtn').classList.toggle('hidden', !it);
+  document.getElementById('fxiLedgerBtn').classList.toggle('hidden', !it);
+  document.getElementById('fxi_linked_wrap').classList.toggle('hidden', !it);
+  renderFxItemAliases();
+  renderFxItemLinked();
+  const overlay = document.getElementById('fixedItemModalOverlay');
   overlay.classList.remove('hidden');
   requestAnimationFrame(() => overlay.classList.add('show'));
+  if (!it) setTimeout(() => document.getElementById('fxi_name').focus(), 60);
 }
-function closeFixedRowModal() {
-  const overlay = document.getElementById('fixedRowModalOverlay');
+function closeFixedItemModal() {
+  const overlay = document.getElementById('fixedItemModalOverlay');
   overlay.classList.remove('show');
   setTimeout(() => overlay.classList.add('hidden'), 180);
 }
-function fixedRowGoLedger() {
-  const E = FIXED_EDIT; if (!E) return;
-  closeFixedRowModal();
-  goLedgerFixed(E.row, null);
+function renderFxItemAliases() {
+  document.getElementById('fxi_aliases').innerHTML = FX_EDIT.aliases.length
+    ? FX_EDIT.aliases.map((a, i) => `<span class="fx-alias">${escapeHtml(a)}<button type="button" onclick="fxAliasRemove(${i})" aria-label="별칭 삭제">×</button></span>`).join('')
+    : '<span class="field-hint">없음</span>';
 }
-function saveFixedRow() {
-  const E = FIXED_EDIT; if (!E) return;
-  const name = document.getElementById('fxr_name').value.trim();
-  const cat = document.getElementById('fxr_cat').value;
-  const exclude = document.getElementById('fxr_exclude').checked;
-  const before = [];
-  STATE.transactions.forEach(t => {
-    if (!E.ids.includes(t.id)) return;
-    before.push({ id: t.id, merchant: t.merchant, memo: t.memo, category: t.category });
-    if (name) { if (fixedSourceOf(t).field === 'merchant') t.merchant = name; else t.memo = name; }
-    t.category = cat;
-    if (t.merchant) STATE.categoryMap[t.merchant] = cat;
-  });
-  const s = STATE.settings;
-  const prevExcluded = (s.fixedExcluded || []).slice();
-  if (exclude) {
-    const k = (name && name !== E.row.name) ? normFixedText(name) : E.key; // 이름을 바꾸면 새 이름 기준으로 묶이므로 그 키로 제외
-    s.fixedExcluded = Array.from(new Set([...(s.fixedExcluded || []), k]));
+function fxAliasAdd() {
+  const inp = document.getElementById('fxi_alias_new');
+  const a = normFixedText(inp.value);
+  if (a && !FX_EDIT.aliases.includes(a)) FX_EDIT.aliases.push(a);
+  inp.value = '';
+  renderFxItemAliases();
+}
+function fxAliasRemove(i) { FX_EDIT.aliases.splice(i, 1); renderFxItemAliases(); }
+function renderFxItemLinked() {
+  const wrap = document.getElementById('fxi_linked');
+  if (!FX_EDIT.id) { wrap.innerHTML = ''; return; }
+  const list = fxLinked(FX_EDIT.id).sort((a, b) => b.date.localeCompare(a.date));
+  document.getElementById('fxi_linked_count').textContent = `${list.length}건 · ${won(list.reduce((a, t) => a + t.amount, 0))}`;
+  wrap.innerHTML = list.length ? list.map(t => {
+    const off = FX_EDIT.unlink.has(t.id);
+    return `<div class="fx-linked-row${off ? ' off' : ''}"><span>${t.date}</span><span class="t">${escapeHtml(fixedNameOf(t))}</span><span class="a">${won(t.amount)}</span><button type="button" class="btn sm ghost" onclick="fxToggleUnlink('${t.id}')">${off ? '되돌리기' : '해제'}</button></div>`;
+  }).join('') : '<div class="field-hint">연결된 거래가 없습니다.</div>';
+}
+function fxToggleUnlink(txId) { if (FX_EDIT.unlink.has(txId)) FX_EDIT.unlink.delete(txId); else FX_EDIT.unlink.add(txId); renderFxItemLinked(); }
+function saveFixedItem() {
+  const name = document.getElementById('fxi_name').value.trim();
+  if (!name) { toast('이름을 입력해 주세요.'); document.getElementById('fxi_name').focus(); return; }
+  const fields = {
+    name, category: document.getElementById('fxi_cat').value,
+    cycle: Number(document.getElementById('fxi_cycle').value) || 1,
+    amount: parseAmt(document.getElementById('fxi_amount').value) || null,
+    day: Math.min(31, Math.max(0, parseInt(document.getElementById('fxi_day').value, 10) || 0)) || null,
+    method: document.getElementById('fxi_method').value || null,
+    active: !document.getElementById('fxi_ended').checked,
+    aliases: FX_EDIT.aliases.slice(),
+  };
+  if (!FX_EDIT.id && !fields.aliases.length) fields.aliases = [normFixedText(name)];
+  const snap = fxSnapshot();
+  let it = fxItem(FX_EDIT.id);
+  if (it) Object.assign(it, fields); else it = fxCreateItem(fields);
+  const unl = STATE.transactions.filter(t => FX_EDIT.unlink.has(t.id) && t.fixedId === it.id);
+  fxUnlink(unl);
+  // 해제한 거래는 같은 항목으로 다시 제안되지 않게
+  it.ignoreTx = Array.from(new Set([...(it.ignoreTx || []), ...unl.map(t => t.id)]));
+  if (document.getElementById('fxi_applyCat').checked) fxLinked(it.id).forEach(t => { t.category = it.category; if (t.merchant) STATE.categoryMap[t.merchant] = it.category; });
+  closeFixedItemModal();
+  fxCommit(`고정비 항목 ${FX_EDIT.id ? '수정' : '추가'} — ${name}${unl.length ? ` (연결 해제 ${unl.length}건)` : ''}`, snap, `'${name}' 항목을 저장했습니다.`);
+}
+function deleteFixedItem() {
+  const it = fxItem(FX_EDIT && FX_EDIT.id); if (!it) return;
+  const snap = fxSnapshot();
+  fxUnlink(fxLinked(it.id));
+  STATE.fixedItems = fxItems().filter(x => x.id !== it.id);
+  closeFixedItemModal();
+  fxCommit(`고정비 항목 삭제 — ${it.name} (거래는 유지, 연결만 해제)`, snap, `'${it.name}' 항목을 삭제했습니다.`);
+}
+function fixedItemGoLedger() {
+  const id = FX_EDIT && FX_EDIT.id; if (!id) return;
+  closeFixedItemModal();
+  goLedgerFixed(id, null);
+}
+
+// ---------- 거래내역: 선택 거래를 고정비로 지정/해제 ----------
+function openFxAssignModal() {
+  const txs = STATE.transactions.filter(t => SELECTED_IDS.has(t.id) && t.type === 'expense');
+  if (!txs.length) { toast('지출 거래를 선택해 주세요.'); return; }
+  const linkedIds = Array.from(new Set(txs.map(t => fxIsLinked(t) ? t.fixedId : '')));
+  const sug = txs.map(t => fxSuggestFor(t)).filter(Boolean);
+  const pre = (linkedIds.length === 1 && linkedIds[0]) ? linkedIds[0] : (sug.length ? sug[0].id : '__new');
+  document.getElementById('fxa_count').textContent = `지출 ${txs.length}건`;
+  document.getElementById('fxa_target').innerHTML = '<option value="__new">새 항목 만들기</option>' +
+    fxItems().map(it => `<option value="${it.id}">${escapeHtml(it.name)} · ${fxCycleLabel(it.cycle)}${it.active === false ? ' (해지)' : ''}</option>`).join('') +
+    (txs.some(fxIsLinked) ? '<option value="__none">고정비 연결 해제</option>' : '');
+  document.getElementById('fxa_target').value = pre;
+  const d = fxDefaultsFrom(txs);
+  document.getElementById('fxa_name').value = d.name === '(이름 없음)' ? '' : d.name;
+  document.getElementById('fxa_cat').innerHTML = buildSelectOptions(STATE.settings.expenseCategoryOrder, d.category, '').replace(/^<select >|<\/select>$/g, '');
+  document.getElementById('fxa_cycle').value = String(d.cycle);
+  onFxAssignTargetChange();
+  const overlay = document.getElementById('fxAssignModalOverlay');
+  overlay.classList.remove('hidden');
+  requestAnimationFrame(() => overlay.classList.add('show'));
+}
+function onFxAssignTargetChange() {
+  document.getElementById('fxa_new_wrap').classList.toggle('hidden', document.getElementById('fxa_target').value !== '__new');
+}
+function closeFxAssignModal() {
+  const overlay = document.getElementById('fxAssignModalOverlay');
+  overlay.classList.remove('show');
+  setTimeout(() => overlay.classList.add('hidden'), 180);
+}
+function applyFxAssign() {
+  const txs = STATE.transactions.filter(t => SELECTED_IDS.has(t.id) && t.type === 'expense');
+  if (!txs.length) return;
+  const target = document.getElementById('fxa_target').value;
+  const snap = fxSnapshot();
+  let label, msg;
+  if (target === '__none') {
+    const linked = txs.filter(fxIsLinked);
+    linked.forEach(t => { const it = fxItem(t.fixedId); if (it) it.ignoreTx = Array.from(new Set([...(it.ignoreTx || []), t.id])); });
+    fxUnlink(linked);
+    label = `고정비 연결 해제 — ${linked.length}건`; msg = `${linked.length}건의 고정비 연결을 해제했습니다.`;
+  } else {
+    let it = fxItem(target);
+    if (!it) {
+      const name = document.getElementById('fxa_name').value.trim();
+      if (!name) { toast('항목 이름을 입력해 주세요.'); return; }
+      const d = fxDefaultsFrom(txs);
+      it = fxCreateItem(Object.assign(d, { name, category: document.getElementById('fxa_cat').value, cycle: Number(document.getElementById('fxa_cycle').value) || 1 }));
+    }
+    fxLink(txs, it);
+    label = `고정비 지정 — ${it.name} (${txs.length}건)`; msg = `${txs.length}건을 '${it.name}'(으)로 지정했습니다.`;
   }
-  logActivity('update', 'transaction', `고정비 항목 일괄 수정 — ${E.row.name} → ${name || E.row.name} · ${cat}${exclude ? ' · 목록에서 제외' : ''} (${before.length}건)`, before, { name, category: cat, exclude });
-  saveState();
-  closeFixedRowModal();
-  renderFixed();
-  toast(`${before.length}건에 반영했습니다.`, '실행취소', () => {
-    before.forEach(b => { const t = STATE.transactions.find(x => x.id === b.id); if (t) { t.merchant = b.merchant; t.memo = b.memo; t.category = b.category; } });
-    s.fixedExcluded = prevExcluded;
-    logActivity('undo', 'transaction', `고정비 항목 일괄 수정 취소 — ${before.length}건`, null, before);
-    saveState();
-    renderFixed();
-  });
+  closeFxAssignModal();
+  SELECTED_IDS.clear();
+  fxCommit(label, snap, msg);
 }
-function fixedRestore(encKey) {
-  const key = decodeURIComponent(encKey);
-  const s = STATE.settings;
-  s.fixedExcluded = (s.fixedExcluded || []).filter(k => k !== key);
-  logActivity('settings', 'settings', '고정비 제외 항목 복원', null, { key });
-  saveState();
-  renderFixed();
+
+// ---------- 거래 창: 고정비 항목 선택 + 별칭 일치 제안 ----------
+function populateTxFixedSelect(value) {
+  const sel = document.getElementById('f_fixed');
+  if (!sel) return;
+  const items = fxItems().filter(it => it.active !== false || it.id === value);
+  sel.innerHTML = '<option value="">없음</option>' + items.map(it => `<option value="${it.id}">${escapeHtml(it.name)} · ${fxCycleLabel(it.cycle)}</option>`).join('');
+  sel.value = value && fxItem(value) ? value : '';
+  updateTxFixedSuggest();
+}
+// 거래처·내용·금액을 입력할 때마다 고정비 일치 제안 갱신
+['f_memo', 'f_merchant', 'f_amount'].forEach(id => { const e = document.getElementById(id); if (e) e.addEventListener('input', () => updateTxFixedSuggest()); });
+function updateTxFixedSuggest() {
+  const box = document.getElementById('f_fixedSuggest'), sel = document.getElementById('f_fixed');
+  if (!box || !sel) return;
+  if (TX_TYPE !== 'expense' || sel.value) { box.innerHTML = ''; return; }
+  const editId = document.getElementById('editId').value;
+  const it = fxSuggestFor({ id: editId || null, type: 'expense', memo: document.getElementById('f_memo').value, merchant: document.getElementById('f_merchant').value, amount: parseAmt(document.getElementById('f_amount').value) });
+  box.innerHTML = it ? `<span>고정비 항목 <b>${escapeHtml(it.name)}</b>와(과) 일치</span><button type="button" onclick="document.getElementById('f_fixed').value='${it.id}';updateTxFixedSuggest()">연결</button>` : '';
 }
 
 // ---------------- 저축 모달 ----------------
@@ -5122,12 +5534,13 @@ function renderSettings() {
   }).join('');
 
   document.getElementById('expenseCatList').innerHTML = s.expenseCategoryOrder.map(c => {
-    const grp = s.expenseCategoryGroups[c] || 'general';
-    const opts = Object.entries(GROUP_LABELS).map(([k,label]) => `<option value="${k}" ${k===grp?'selected':''}>${label}</option>`).join('');
+    // 그룹이 비어 있으면(예: 가져오기로 생긴 구분) '미지정'으로 보여 준다 — 미지정은 대시보드 그룹 합계·생활예산에서 빠짐
+    const grp = s.expenseCategoryGroups[c] || '';
+    const opts = (grp ? '' : '<option value="" selected>미지정</option>') + Object.entries(GROUP_LABELS).map(([k,label]) => `<option value="${k}" ${k===grp?'selected':''}>${label}</option>`).join('');
     const budget = s.categoryBudgets[c] || '';
     const budgetDisplay = budget ? Number(budget).toLocaleString('en-US') : '';
     const taxRel = (s.taxRelevantCategories||[]).includes(c);
-    return `<div class="settings-row settings-row-wide">
+    return `<div class="settings-row settings-row-wide${grp ? '' : ' unassigned'}">
       <select onchange="setExpenseCategoryGroup('${escapeHtml(c)}',this.value)">${opts}</select>
       <span class="settings-row-name">${escapeHtml(c)}</span>
       <input type="text" inputmode="numeric" class="settings-budget-input" placeholder="월예산" value="${budgetDisplay}" oninput="formatAmtField(this)" onchange="setCategoryBudget('${escapeHtml(c)}',this.value)">
@@ -5161,11 +5574,13 @@ function saveBrandNameFromSettings() {
   toast(`이름을 "${v}"(으)로 변경했습니다.`);
 }
 function setExpenseCategoryGroup(cat, group) {
+  if (!group) return;
   STATE.settings.expenseCategoryGroups[cat] = group;
   logActivity('settings', 'category', `"${cat}" 예산그룹을 "${GROUP_LABELS[group]}"(으)로 변경`, null, group);
   saveState();
   toast(`"${cat}"의 예산 그룹을 "${GROUP_LABELS[group]}"(으)로 변경했습니다.`);
   renderDashboard();
+  renderSettings();
 }
 function setCategoryBudget(cat, value) {
   const amt = parseAmt(value);
@@ -5428,7 +5843,9 @@ function refreshImportRowStatus(idx) {
   const cell = document.getElementById(`importStatus-${idx}`);
   if (cell) cell.innerHTML = importStatusBadgeHtml(IMPORT_STAGE[idx]);
 }
+let IMPORT_LABEL = '';
 function renderImportPreview(sourceLabel) {
+  IMPORT_LABEL = sourceLabel || '';
   const wrap = document.getElementById('importPreviewWrap');
   wrap.classList.remove('hidden');
   const dupCount = IMPORT_STAGE.filter(r => !r.include).length;
@@ -5439,7 +5856,7 @@ function renderImportPreview(sourceLabel) {
     `${sourceLabel ? sourceLabel + ' — ' : ''}지출 ${kindCounts.expense}건 · 수입 ${kindCounts.income}건 · 저축 ${kindCounts.saving}건 인식 — 이미 등록된 ${dupCount}건은 기본 제외 처리했습니다.` +
     (issueCount > 0 ? ` 상태 컬럼에서 확인이 필요한 항목이 ${issueCount}건 있습니다 (그대로 반영해도 무방합니다).` : '');
   const kindLabel = { expense: '지출', income: '수입', saving: '저축' };
-  let html = `<thead><tr><th></th><th>유형</th><th>날짜</th><th>수단</th><th>거래처</th><th>내용</th><th style="text-align:right">금액</th><th>구분</th><th>혜택</th><th>상태</th></tr></thead><tbody>`;
+  let html = `<thead><tr><th></th><th>유형</th><th>날짜</th><th>수단</th><th>거래처</th><th>내용</th><th style="text-align:right">금액</th><th>구분</th><th>혜택</th><th>고정비</th><th>상태</th></tr></thead><tbody>`;
   IMPORT_STAGE.forEach((r, idx) => {
     let categoryCell;
     if (r.kind === 'saving') {
@@ -5469,16 +5886,31 @@ function renderImportPreview(sourceLabel) {
       <td class="amt">${importAmountInputHtml(r, idx)}</td>
       <td>${categoryCell}</td>
       <td>${tagCell}</td>
+      <td>${importFixedCellHtml(r, idx)}</td>
       <td id="importStatus-${idx}">${importStatusBadgeHtml(r)}</td>
     </tr>`;
   });
   document.getElementById('importPreviewTable').innerHTML = html + '</tbody>';
+  const fxN = IMPORT_STAGE.filter(r => r.kind === 'expense' && fxSuggestFor({ type: 'expense', memo: r.memo, merchant: r.merchant, amount: Number(r.amount) })).length;
+  const fxBar = document.getElementById('importFixedBar');
+  if (fxBar) fxBar.innerHTML = fxN ? `고정비 항목과 일치하는 행 ${fxN}건 <button class="btn sm secondary" onclick="importSelectAllFixed()">모두 연결 선택</button>` : '';
 }
 // 가져오기 금액 수정(v4.1.0): 카드사 파일에 해외이용수수료가 빠져 있는 경우 등, 반영 전에 실제 금액으로 고칠 수 있다.
 function importAmountInputHtml(r, idx) {
   const edited = Number(r.amount) !== r.origAmount;
   const v = Number.isFinite(Number(r.amount)) ? Number(r.amount).toLocaleString('en-US') : '';
   return `<input type="text" inputmode="numeric" class="imp-amt${edited?' edited':''}" value="${v}" ${edited?`title="원래 금액 ${won(r.origAmount)}"`:''} oninput="formatAmtField(this)" onchange="setImportAmount(${idx},this)">`;
+}
+// 가져오기 미리보기: 기존 고정비 항목 별칭과 일치하면 제안(기본 해제 — 연결 여부는 사용자가 결정)
+function importFixedCellHtml(r, idx) {
+  if (r.kind !== 'expense') return '—';
+  const it = fxSuggestFor({ type: 'expense', memo: r.memo, merchant: r.merchant, amount: Number(r.amount) });
+  if (!it) return '';
+  return `<label class="imp-fx" title="고정비 '${escapeHtml(it.name)}'에 연결"><input type="checkbox" ${r.fixedLink === it.id ? 'checked' : ''} onchange="IMPORT_STAGE[${idx}].fixedLink=this.checked?'${it.id}':null"> ${escapeHtml(it.name)}</label>`;
+}
+function importSelectAllFixed() {
+  IMPORT_STAGE.forEach(r => { if (r.kind !== 'expense' || !r.include) return; const it = fxSuggestFor({ type: 'expense', memo: r.memo, merchant: r.merchant, amount: Number(r.amount) }); if (it) r.fixedLink = it.id; });
+  renderImportPreview(IMPORT_LABEL);
 }
 function setImportAmount(idx, el) {
   const r = IMPORT_STAGE[idx];
@@ -5494,9 +5926,11 @@ function commitImport() {
   const toAdd = IMPORT_STAGE.filter(r => r.include);
   if (toAdd.length === 0) { toast('반영할 항목이 없습니다.'); return; }
   let added = { expense: 0, income: 0, saving: 0 };
+  const addedTx = [], addedSv = [], fxSnap = fxSnapshot();
   toAdd.forEach(r => {
     if (r.kind === 'saving') {
-      STATE.savings.push({ id: uid('sv'), date: r.date, type: r.category || r.type || '저축', memo: r.memo || '', amount: r.amount, note: r.note || '', balance: r.balance ?? null });
+      const svId = uid('sv'); addedSv.push(svId);
+      STATE.savings.push({ id: svId, date: r.date, type: r.category || r.type || '저축', memo: r.memo || '', amount: r.amount, note: r.note || '', balance: r.balance ?? null });
       added.saving++; return;
     }
     const tx = {
@@ -5506,15 +5940,30 @@ function commitImport() {
     };
     // 금액을 고쳐 반영한 경우 파일 원래 금액을 남겨, 같은 파일을 다시 올려도 중복으로 판정되게 한다(선택 필드, 하위호환)
     if (r.origAmount != null && Number(r.amount) !== r.origAmount) tx.importAmount = r.origAmount;
+    if (tx.type === 'expense' && r.fixedLink && fxItem(r.fixedLink)) fxLink([tx], fxItem(r.fixedLink)); // 사용자가 체크한 고정비 제안만 연결
     STATE.transactions.push(tx);
+    addedTx.push(tx.id);
     if (tx.type === 'expense' && tx.merchant) STATE.categoryMap[tx.merchant] = tx.category;
-    if (tx.type === 'expense') ensureOption(STATE.settings.expenseCategoryOrder, tx.category);
+    if (tx.type === 'expense') {
+      ensureOption(STATE.settings.expenseCategoryOrder, tx.category);
+      // 가져오기로 새로 생긴 구분은 예산 그룹이 비어 대시보드 합계에서 빠지던 문제 → 기본 '일반지출'
+      if (!STATE.settings.expenseCategoryGroups[tx.category]) STATE.settings.expenseCategoryGroups[tx.category] = 'general';
+    }
     if (tx.type === 'expense' && tx.method) ensureOption(STATE.settings.methods, tx.method);
     added[r.kind]++;
   });
   logActivity('import', 'transaction', `가져오기 반영 — 지출${added.expense}·수입${added.income}·저축${added.saving}건`, null, added);
   saveState();
-  toast(`지출 ${added.expense}건 · 수입 ${added.income}건 · 저축 ${added.saving}건을 반영했습니다.`);
+  toast(`지출 ${added.expense}건 · 수입 ${added.income}건 · 저축 ${added.saving}건을 반영했습니다.`, '실행취소', () => {
+    const tset = new Set(addedTx), sset = new Set(addedSv);
+    STATE.transactions = STATE.transactions.filter(t => !tset.has(t.id));
+    STATE.savings = STATE.savings.filter(v => !sset.has(v.id));
+    fxRestore(fxSnap);
+    logActivity('undo', 'transaction', `가져오기 취소 — ${addedTx.length + addedSv.length}건 삭제`, null, null);
+    saveState();
+    if (CURRENT_VIEW === 'ledger') renderLedger();
+    if (CURRENT_VIEW === 'dashboard') renderDashboard();
+  });
   cancelImport();
   if (CURRENT_VIEW === 'ledger') renderLedger();
   if (CURRENT_VIEW === 'dashboard') renderDashboard();
@@ -5636,6 +6085,7 @@ function restoreBackup(evt) {
       if (!Array.isArray(STATE.mrAdjustments)) STATE.mrAdjustments = [];
       if (!Array.isArray(STATE.assetAccounts)) STATE.assetAccounts = [];
       if (!Array.isArray(STATE.recurringTemplates)) STATE.recurringTemplates = [];
+      if (!Array.isArray(STATE.fixedItems)) STATE.fixedItems = [];
       if (!Array.isArray(STATE.savingsGoals)) STATE.savingsGoals = [];
       if (typeof STATE.lastBackupAt === 'undefined') STATE.lastBackupAt = null;
       STATE.activityLog = STATE.activityLog.concat(prevLog).slice(0, LOG_CAP);
@@ -5652,7 +6102,7 @@ function resetAllData() {
   if (!confirm('마지막 확인입니다. 삭제 전 백업 파일을 받으셨나요? 계속 삭제하시겠습니까?')) return;
   STATE = {
     transactions: [], savings: [], categoryMap: {}, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)),
-    activityLog: [], mrAdjustments: [], assetAccounts: [], recurringTemplates: [], savingsGoals: [], lastBackupAt: null,
+    activityLog: [], mrAdjustments: [], assetAccounts: [], recurringTemplates: [], fixedItems: [], savingsGoals: [], lastBackupAt: null,
   };
   logActivity('reset', 'data', '전체 데이터 초기화', null, null);
   saveState();
@@ -6080,7 +6530,7 @@ const ESC_CLOSERS = [
   ['assetEntryModalOverlay', () => closeAssetEntryModal()], ['changePassModalOverlay', () => closeChangePassphraseModal()],
   ['goalModalOverlay', () => closeSavingsGoalModal()], ['sortModalOverlay', () => closeSortModal()],
   ['mrAdjModalOverlay', () => closeMrAdjModal()], ['moreSheetOverlay', () => closeMoreSheet()],
-  ['copyModalOverlay', () => closeCopyModal()], ['fixedRowModalOverlay', () => closeFixedRowModal()],
+  ['copyModalOverlay', () => closeCopyModal()], ['fixedItemModalOverlay', () => closeFixedItemModal()], ['fxAssignModalOverlay', () => closeFxAssignModal()],
 ];
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
