@@ -1010,8 +1010,8 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
 /* 넓은 화면: 거래 입력·수정은 오른쪽에 붙는 패널(목록을 가리지 않음) */
 @media(min-width:1600px){
   #txModalOverlay{background:transparent;pointer-events:none !important;justify-content:flex-end;align-items:stretch;padding:0;z-index:180;}
-  #txModalOverlay .modal-box{pointer-events:auto;width:440px;max-width:440px;height:100vh;max-height:100vh;border-radius:0;border-left:1px solid var(--line);box-shadow:-16px 0 40px rgba(24,34,29,.08);transform:translateX(24px);display:flex;flex-direction:column;}
-  #txModalOverlay.show .modal-box{transform:none;}
+  #txModalOverlay .modal-box{pointer-events:none;width:440px;max-width:440px;height:100vh;max-height:100vh;border-radius:0;border-left:1px solid var(--line);box-shadow:-16px 0 40px rgba(24,34,29,.08);transform:translateX(24px);display:flex;flex-direction:column;}
+  #txModalOverlay.show .modal-box{transform:none;pointer-events:auto;} /* 닫혀 있을 때(투명) 오른쪽 440px 클릭을 가로채지 않도록 */
   #txModalOverlay form{display:flex;flex-direction:column;flex:1;min-height:0;}
   #txModalOverlay .modal-body{flex:1;overflow-y:auto;}
   #txModalOverlay .modal-header{padding-top:22px;}
@@ -1114,7 +1114,7 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
   .field .chips::-webkit-scrollbar{display:none;}
   .field .chips .chip{padding:7px 13px;}
   /* 하단 탭: 홈 표시줄과 겹치지 않게 조금 위로 */
-  .mobile-tabbar{padding:7px 6px calc(10px + max(6px, env(safe-area-inset-bottom)));}
+  .mobile-tabbar{padding:6px 6px max(8px, calc(env(safe-area-inset-bottom) - 6px));}
   .mobile-tabbar button{min-height:50px;font-size:11px;font-weight:600;}
   .fab{bottom:calc(92px + env(safe-area-inset-bottom));}
   #view-settings:not(.hidden){columns:auto;}
@@ -2830,7 +2830,7 @@ function parseStandardWorkbook(XLSXutils, workbook) {
 
 const STORAGE_KEY = 'ledger_app_v1';
 const BRAND_KEY = 'ledger_brand_name';
-const APP_VERSION = 'v5.0.0';
+const APP_VERSION = 'v5.0.1';
 // v4.7.0: 표준양식 템플릿 — 지출·수입·저축을 시트별 단순 표로(제목 1줄 + 행 수 제한 없음, 합계 행 없음).
 // 내 설정의 수단·구분·혜택 목록을 드롭다운으로 넣어 앱 안에서 바로 만든다(설정을 바꾸면 새로 받은 템플릿에 반영).
 const TEMPLATE_ROWS = 10000; // 드롭다운·서식을 미리 걸어 두는 행 수(이보다 많이 적어도 인식은 그대로 됨)
