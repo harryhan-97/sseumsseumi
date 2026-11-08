@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F5F7F4">
 <meta name="apple-mobile-web-app-title" content="씀씀이">
 <title>씀씀이 — 스마트 자금 관리 솔루션</title>
@@ -573,7 +573,7 @@ a.btn{text-decoration:none;}
   position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
   background:var(--ink);color:#F4F5F2;padding:11px 14px 11px 18px;border-radius:12px;font-size:13.5px;
   opacity:0;pointer-events:none;transition:all .25s ease;z-index:999;box-shadow:var(--shadow-md);
-  display:flex;align-items:center;gap:14px;max-width:90vw;
+  display:flex;align-items:center;gap:14px;max-width:90vw;width:max-content;
 }
 #toast.show{opacity:1;pointer-events:auto;transform:translateX(-50%) translateY(0);}
 #toast button{background:none;border:1px solid #45514A;color:#9BE0BF;padding:5px 12px;border-radius:8px;font-weight:700;font-size:12.5px;white-space:nowrap;}
@@ -1121,6 +1121,148 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
   #view-settings .data-block{margin-bottom:12px;}
 }
 @media(min-width:861px){ .mobile-only{display:none !important;} }
+
+/* ===================== v5.1.0 ===================== */
+/* 두 번 빠르게 누를 때 화면 확대(더블탭 줌) 차단 — 손가락 확대는 유지 */
+html,body,button,a,input,select,textarea,label,.chip,.kp-key,[onclick]{touch-action:manipulation;}
+.tx-keypad,.tx-keypad *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;}
+
+/* 예산 현황: 변동지출 여유 중심 */
+.bud-limit{font-size:12px;font-weight:600;color:var(--ink-faint);}
+.bud-none{font-size:13px;color:var(--ink-faint);}
+.bud-hero{margin:2px 0 14px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;}
+.bud-lim{display:flex;flex-direction:column;align-items:flex-end;gap:1px;padding:7px 10px;border-radius:10px;background:var(--panel);border:1px solid var(--line-soft);}
+.bud-lim span{font-size:11px;font-weight:700;color:var(--ink-faint);}
+.bud-lim b{font-size:13px;font-weight:800;font-variant-numeric:tabular-nums;}
+.bud-k{font-size:12.5px;font-weight:700;color:var(--ink-soft);letter-spacing:-.1px;}
+.bud-v{font-size:30px;font-weight:800;letter-spacing:-.8px;line-height:1.15;margin:3px 0 2px;color:var(--green);font-variant-numeric:tabular-nums;}
+.bud.warn .bud-v{color:var(--gold);}
+.bud.over .bud-v{color:var(--rust);}
+.bud.over .bud-k{color:var(--rust);}
+.bud-sub{font-size:12.5px;color:var(--ink-soft);font-weight:500;}
+.bud-bar{position:relative;display:flex;height:12px;border-radius:99px;background:var(--line-soft);overflow:visible;}
+.bud-bar .seg{display:block;height:100%;flex:none;}
+.bud-bar .seg:first-child{border-radius:99px 0 0 99px;}
+.bud-bar .seg.fix{background:#3E6B8C;}
+.bud-bar .seg.pend{background:repeating-linear-gradient(-45deg,rgba(62,107,140,.38) 0 4px,rgba(62,107,140,.18) 4px 8px);}
+.bud-bar .seg.var{background:var(--green);border-radius:0 99px 99px 0;}
+.bud.warn .bud-bar .seg.var{background:var(--gold);}
+.bud.over .bud-bar .seg.var{background:var(--rust);}
+.bud-pace{position:absolute;top:-4px;bottom:-4px;width:2px;border-radius:1px;background:var(--ink);opacity:.45;}
+.bud-split{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+.bud-split .bs{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.bud-split .bs span{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:var(--ink-soft);}
+.bud-split .bs span i{width:9px;height:9px;border-radius:3px;display:inline-block;}
+.bud-split .bs.fix span i{background:#3E6B8C;}
+.bud-split .bs.var span i{background:var(--green);}
+.bud.warn .bud-split .bs.var span i{background:var(--gold);}
+.bud.over .bud-split .bs.var span i{background:var(--rust);}
+.bud-split .bs b{font-size:16px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums;}
+.bud-split .bs small{font-size:11.5px;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bud-rows{margin-top:14px;border-top:1px solid var(--line-soft);}
+.bud-rows .br{display:grid;grid-template-columns:auto auto minmax(0,1fr) auto;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13px;}
+.bud-rows .br:last-child{border-bottom:none;padding-bottom:0;}
+.bud-rows .br i{width:8px;height:8px;border-radius:50%;}
+.bud-rows .br span{font-weight:700;}
+.bud-rows .br small{font-size:11.5px;color:var(--ink-faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bud-rows .br small .neg{color:var(--rust);font-weight:600;}
+.bud-rows .br b{font-weight:800;font-variant-numeric:tabular-nums;}
+.bud.compact .bud-hero{margin-bottom:10px;}
+.bud.compact .bud-v{font-size:22px;}
+.bud.compact .bud-bar{height:9px;}
+.bud.compact .bud-split{gap:8px;margin-top:9px;}
+.bud.compact .bud-split .bs b{font-size:13.5px;}
+.bud.compact + .rb-row{margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft);}
+
+/* 고정비 납부: 금액 진행 */
+.fp-sum{margin:2px 0 8px;}
+.fp-sum-t{display:flex;align-items:baseline;gap:6px;font-variant-numeric:tabular-nums;}
+.fp-sum-t b{font-size:17px;font-weight:800;letter-spacing:-.3px;}
+.fp-sum-t span{font-size:12.5px;color:var(--ink-faint);font-weight:600;}
+.fp-sum-t small{margin-left:auto;font-size:12px;font-weight:700;color:#3E6B8C;}
+.fp-sum-bar{height:6px;border-radius:99px;background:var(--line-soft);margin-top:6px;overflow:hidden;}
+.fp-sum-bar i{display:block;height:100%;background:#3E6B8C;border-radius:99px;}
+
+/* 설정: 지출 카테고리(그룹별) */
+.cat-set-group{margin-bottom:12px;}
+.cat-set-head{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:800;color:var(--ink-soft);padding:6px 2px;}
+.cat-set-head i{width:8px;height:8px;border-radius:3px;display:inline-block;}
+.cat-set-head small{font-weight:600;color:var(--ink-faint);}
+.cat-set-row{padding:5px 10px !important;margin-bottom:4px !important;display:grid !important;grid-template-columns:auto auto minmax(70px,1fr) 108px 110px auto;align-items:center;gap:8px;}
+.cat-set-row .settings-row-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.cat-set-row select,.cat-set-row .settings-budget-input{width:100%;min-width:0;}
+.cm-set-btns{display:flex;gap:6px;}
+
+/* 카테고리 개편 확인 화면 */
+.cm-box{max-width:1080px;display:flex;flex-direction:column;max-height:92vh;}
+.cm-body{display:flex;flex-direction:column;gap:12px;min-height:0;flex:1;overflow:hidden;}
+.cm-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.cm-stat{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);cursor:pointer;font:inherit;text-align:left;}
+.cm-stat span{font-size:12px;font-weight:700;color:var(--ink-soft);}
+.cm-stat b{font-size:20px;font-weight:800;letter-spacing:-.4px;}
+.cm-stat.check b{color:var(--gold);}
+.cm-stat.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset;}
+.cm-flow-box summary{cursor:pointer;font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+.cm-flow{display:flex;flex-direction:column;gap:6px;margin-top:8px;}
+.cm-flow-row{display:grid;grid-template-columns:62px 16px 1fr;align-items:start;gap:6px;font-size:12.5px;}
+.cm-from{font-weight:700;color:var(--ink-soft);}
+.cm-arrow{color:var(--ink-faint);}
+.cm-tos{display:flex;flex-wrap:wrap;gap:4px 10px;}
+.cm-to{display:inline-flex;align-items:center;gap:5px;}
+.cm-to b{font-weight:800;}
+.cm-search{max-width:320px;}
+.cm-table-wrap{flex:1;min-height:200px;overflow:auto;border:1px solid var(--line);border-radius:12px;}
+.cm-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;}
+.cm-table thead th{position:sticky;top:0;z-index:1;background:var(--panel);}
+.cm-table td{padding:7px 10px;border-bottom:1px solid var(--line-soft);vertical-align:middle;}
+.cm-table tr.check td{background:#FFFBEF;}
+.cm-table tr.edited td{background:#F1F7F3;}
+.cm-d{white-space:nowrap;color:var(--ink-soft);font-variant-numeric:tabular-nums;}
+.cm-m{min-width:200px;}
+.cm-m b{display:block;font-weight:700;}
+.cm-m small{display:block;font-size:11.5px;color:var(--ink-faint);}
+.cm-m small em{font-style:normal;font-weight:700;color:#2B8A9E;}
+.cm-a{white-space:nowrap;text-align:right;font-weight:700;}
+.cm-f{white-space:nowrap;color:var(--ink-faint);text-decoration:line-through;text-decoration-color:rgba(148,157,150,.6);}
+.cm-t select{min-width:112px;padding:6px 26px 6px 10px;border-radius:9px;font-weight:700;border-left:4px solid var(--cd,#8B9488);}
+.cm-w{font-size:11.5px;color:var(--ink-soft);min-width:150px;}
+.cm-empty{text-align:center;color:var(--ink-faint);padding:30px !important;}
+.cm-more{font-size:12px;color:var(--ink-faint);}
+.cm-box .modal-footer{justify-content:space-between;}
+@media(max-width:860px){
+  .cm-box{max-height:94vh;}
+  .cm-summary{grid-template-columns:repeat(4,1fr);gap:6px;}
+  .cm-stat{padding:7px 8px;border-radius:10px;}
+  .cm-stat span{font-size:11px;white-space:nowrap;}
+  .cm-stat b{font-size:16px;}
+  .cm-body{gap:10px;}
+  .cm-box .modal-footer{flex-wrap:nowrap;}
+  .cm-box .modal-footer .btn-group{width:auto;flex:1;}
+  .cm-search{max-width:none;}
+  .cm-table thead{display:none;}
+  .cm-table,.cm-table tbody{display:block;}
+  .cm-table tr{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:3px 10px;padding:10px 12px;border-bottom:1px solid var(--line-soft);align-items:center;}
+  .cm-table tr.check{background:#FFFBEF;}.cm-table tr.edited{background:#F1F7F3;}
+  .cm-table td{padding:0 !important;border:none !important;background:none !important;height:auto !important;}
+  .cm-d{grid-column:1;grid-row:1;font-size:12px;}
+  .cm-m{grid-column:2;grid-row:1 / span 2;min-width:0;}
+  .cm-a{grid-column:3;grid-row:1;}
+  .cm-f{grid-column:1;grid-row:2;font-size:12px;}
+  .cm-t{grid-column:3;grid-row:2;}
+  .cm-t select{min-width:0;width:118px;font-size:13px;}
+  .cm-w{grid-column:1 / -1;grid-row:3;min-width:0;font-size:11px;}
+  .cm-flow-row{grid-template-columns:52px 14px 1fr;}
+  .cat-set-row{grid-template-columns:auto auto minmax(0,1fr) 92px;}
+  .cat-set-row .settings-budget-input{grid-column:3 / span 1;grid-row:2;}
+  .cat-set-row .icon-btn.danger{grid-column:4;grid-row:2;justify-self:end;}
+  .cat-set-row .order-btns{grid-row:1 / span 2;}
+  .bud-v{font-size:27px;}
+  .bud-split .bs small{white-space:normal;line-height:1.35;}
+  #toast{bottom:calc(84px + env(safe-area-inset-bottom));font-size:13px;}
+}
+.chip-sep{display:inline-block;flex:none;width:1px;height:18px;background:var(--line);margin:0 2px;align-self:center;}
+#f_category_chips .chip .cd{width:7px;height:7px;margin-right:5px;}
+#f_category_chips .chip.on .cd{background:rgba(255,255,255,.85) !important;}
 </style>
 
 
@@ -1567,15 +1709,15 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
       </div>
       </div>
       <div class="data-block">
-      <div class="section-label">지출 카테고리</div>
-      <p class="field-hint" style="margin-bottom:10px;">각 카테고리가 어느 예산 그룹에 속하는지에 따라 대시보드의 생활예산·부가지출 계산이 달라집니다.</p>
+      <div class="card-head"><div class="section-label">지출 카테고리</div><div class="cm-set-btns" id="catMigSetting"></div></div>
       <div id="expenseCatList" style="margin-bottom:10px;"></div>
       <div style="display:flex;gap:8px;margin-bottom:0;flex-wrap:wrap;">
         <input type="text" id="newCatInput" placeholder="새 카테고리 이름" style="">
         <select id="newCatGroup" style="">
-          <option value="general">일반지출</option>
+          <option value="general">변동지출</option>
           <option value="fixed">고정지출</option>
-          <option value="extra">부가지출</option>
+          <option value="extra">경조·선물</option>
+          <option value="travel">여행</option>
           <option value="tithe">헌금</option>
         </select>
         <button class="btn secondary" onclick="addExpenseCategory()">추가</button>
@@ -1694,7 +1836,6 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
         <label class="export-subject-card"><input type="checkbox" value="ledger" checked><span>거래내역</span></label>
         <label class="export-subject-card"><input type="checkbox" value="category"><span>카테고리분석</span></label>
         <label class="export-subject-card"><input type="checkbox" value="mr"><span>AMEX MR</span></label>
-        <label class="export-subject-card"><input type="checkbox" value="tax"><span>연말정산 참고자료</span></label>
         <label class="export-subject-card"><input type="checkbox" value="activity"><span>활동 로그</span></label>
       </div>
 
@@ -2024,6 +2165,29 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
   </div>
 </div>
 
+<!-- ===== 카테고리 개편 (v5.1.0) ===== -->
+<div class="modal-overlay" id="catMigOverlay">
+  <div class="modal-box modal-wide cm-box">
+    <div class="modal-header">
+      <div class="modal-title">카테고리 개편</div>
+      <button class="modal-close" onclick="closeCatMigration()"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    </div>
+    <div class="modal-body cm-body">
+      <div class="cm-summary" id="cmSummary"></div>
+      <details class="cm-flow-box"><summary>이전 → 새 구분</summary><div class="cm-flow" id="cmFlow"></div></details>
+      <div class="search-box cm-search"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input type="search" id="cmSearch" placeholder="거래처·내용 검색" oninput="onCmSearch(this.value)"></div>
+      <div class="cm-table-wrap" id="cmTableWrap">
+        <table class="data-table cm-table"><thead><tr><th>날짜</th><th>거래처 · 내용</th><th class="num">금액</th><th>이전</th><th>새 구분</th><th>근거</th></tr></thead><tbody id="cmRows"></tbody></table>
+      </div>
+      <div class="cm-more" id="cmMore"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn secondary" onclick="closeCatMigration()">나중에</button>
+      <div class="btn-group"><button type="button" class="btn" id="cmApplyBtn" onclick="applyCatMigration()">적용</button></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===== 고정비 항목 편집 모달 (v4.5.0) ===== -->
 <div class="modal-overlay hidden" id="fixedItemModalOverlay" onclick="if(event.target===this) closeFixedItemModal()">
   <div class="modal-box" style="max-width:560px;">
@@ -2125,6 +2289,193 @@ body.tx-open .bulk-bar{left:calc(50% - 220px);}
 const SEED_DATA = {"transactions": [], "savings": []};
 
 // ============================================================
+// v5.1.0 카테고리 개편 — 새 분류 체계 + 과거 거래 재분류기 (순수 함수, DOM 없음)
+// 근거 우선순위: 경조사 금전 → 선물 → (여행·모임·건강·교통 등 성격) → 메모의 식사/간식 → 거래처 특성 → 같은 거래처 이력 → 금액
+// ============================================================
+const CAT_V51_GROUPS = {
+  '식사': 'general', '카페·간식': 'general', '쇼핑': 'general', '교통': 'general', '건강·미용': 'general', '여가': 'general', '모임': 'general', '기타': 'general',
+  '보험': 'fixed', '통신': 'fixed', '구독': 'fixed', '후원': 'fixed',
+  '경조사': 'extra', '선물': 'extra',
+  '여행': 'travel',
+  '헌금': 'tithe',
+};
+const CAT_V51_ORDER = ['식사', '카페·간식', '쇼핑', '교통', '건강·미용', '여가', '모임', '기타', '보험', '통신', '구독', '후원', '경조사', '선물', '여행', '헌금'];
+// 이전 기본 구분(v5.0 이하) — 설정에 이 이름이 남아 있으면 개편 대상
+const CAT_OLD_NAMES = ['식비', '물품비', '여가비', '기타비', '생활비', '교통비', '구독비', '후원금', '보험료', '고정비', '선물비'];
+// 이름만 바뀌는 구분(사용자가 추가했을 법한 이름 포함)
+const CAT_RENAME = {
+  '물품비': '쇼핑', '여가비': '여가', '기타비': '기타', '교통비': '교통', '구독비': '구독', '후원금': '후원', '보험료': '보험', '선물비': '선물',
+  '통신비': '통신', '의료비': '건강·미용', '병원비': '건강·미용', '미용비': '건강·미용', '여행비': '여행', '여행경비': '여행', '회비': '모임',
+  '쇼핑비': '쇼핑', '간식비': '카페·간식', '카페': '카페·간식', '외식비': '식사', '모임비': '모임', '교제비': '모임',
+};
+// 예산 상한 키 이전(나뉘는 구분은 가장 가까운 곳으로)
+const CAT_BUDGET_MOVE = Object.assign({ '식비': '식사' }, CAT_RENAME);
+
+// ---- 사전 ----
+const CM = {
+  // 경조사 금전(꽃·화환도 결혼식·장례용이면 경조사)
+  event: /축의금|부의금|조의금|축하금|부조금?|조문|근조|조화|화환|결혼식|장례|빈소|돌잔치|돌반지/,
+  // 선물(사람에게 주는 것). '꽃게·꽃살·꽃등심'은 음식이라 제외
+  gift: /선물|꽃다발|꽃바구니|꽃배달|꽃집|플라워|flower|화분|답례|퇴직|승진|개업|집들이|졸업|입학|생신|환갑|칠순|기념일|어버이날|스승의날|발렌타인|화이트데이|빼빼로/i,
+  // 선물일 가능성이 높지만 본인용일 수도 있는 단어 → '확인 필요'로 표시
+  giftWeak: /꽃(?!게|살|등심|갈비|빵|차|구경|놀이|축제|길)|기프티콘|기프트|gift|상품권|축하/i,
+  // 함께하는 자리(메모 기준)
+  meetWord: /청년부|찬양팀|성가대|중고등부|교사|구역|목장|소그룹|셀모임|셀\b|모임|회식|동아리|동문|동기|부서|교회|예배|성경공부|큐티|수련회|엠티|\bmt\b|워크숍|워크샵|단합|번개|친목|송년|신년회|송별|환영회|뒷풀이|뒤풀이|회비|참가비|등록비|참가|대접|접대|팀원|팀장|대리님|과장님|부장님|차장님|실장님|대표님|이사님|사장님|교수님|목사님|전도사님|간사님|선생님|쌤|선배|후배|친구|지인|손님/i,
+  feeWord: /회비|참가비|등록비|수련회비|수련회 ?비용|엠티비|mt비|행사비|모임비|워크숍비|워크샵비/i,
+  honor: /(님|쌤|씨|형|누나|언니|오빠|선배|후배|교수|목사|전도사|간사|과장|부장|대리|차장|팀장|실장|대표|이사|사장|선생)$/,
+  surname: '김이박최정강조윤장임한오서신권황안송류유홍전고문양손배백허남심노하곽성차주우구민진나지엄채원천방공현함변염여추도소석선설마길연위표명기반라왕금옥육인맹제모탁국어은편용예봉경',
+  notName: /^(배민|이모티콘|좌석|커피|수련회|청년부|본인|정기|연간|월간|신규|추가|할부|환불|취소|배송|택배|기본|주말|평일|점심|저녁|아침|간식|음료|장보기|해외|국내|공항|여행|출장|대리|수수료|연료|주차|생일|선물|축하|퇴직|결혼|가족|부모님?|동생|아내|남편|조카|이번달|지난달|다음달|이월|선결제|후불|교통|통신|로밍|구독|보험|후원|헌금|십일조|감사|주정|선교|건축|무료|유료|정산|분할|공동|더치|대신|보스턴|시카고|뉴욕|도쿄|오사카|파리|런던|상해|북경|홍콩|대만|베트남|태국|미국|일본|중국|유럽|제주|부산)$/,
+  family: /가족|부모|엄마|아빠|어머니|아버지|동생|누나|형|언니|오빠|아내|남편|와이프|조카|할머니|할아버지|장인|장모|시댁|처가/,
+  // 여행(항공·숙박·출입국·환전 등). 거래처 영문·한글 모두
+  travel: /항공|airline|airways|\bair\b|에어(?!컨|팟|프라이|매트|로빅)|jetblue|delta air|united air|대한항공|아시아나|제주항공|진에어|티웨이|에어부산|에어서울|이스타|숙박|민박|호스텔|hostel|게스트하우스|에어비앤비|airbnb|agoda|아고다|booking\.com|부킹닷컴|expedia|익스피디아|hotels\.com|트립닷컴|trip\.com|마이리얼트립|myrealtrip|클룩|klook|kkday|여기어때|야놀자|esta|전자여행|비자발급|환전|이심|esim|유심|여행자보험|면세|공항|amtrak|렌터카|렌트카|rent ?a ?car|노랑풍선|하나투어|모두투어|인터파크투어|참좋은여행|여행사|패키지여행|입국|출국|수하물|기내/i,
+  travelTag: ['해외', '여행항공'],
+  transport: /주유|연료|기름값|휘발유|경유|충전소|주차|톨게이트|통행료|하이패스|택시|카카오\s?t|카카오모빌리티|타다|우버|uber|티머니|교통카드|(?<!유니)버스|지하철|기차|ktx|srt|코레일|korail|고속버스|시외버스|따릉이|킥보드|세차|정비|타이어|엔진오일|자동차검사|과태료|대리운전/i,
+  health: /병원|의원|치과|한의원|약국|약제|약값|처방|진료|검진|건강검진|안과|피부과|정형외과|내과|외과|이비인후과|소아과|산부인과|비뇨기과|정신건강|재활|물리치료|도수치료|한약|영양제|비타민|안경|렌즈|미용실|헤어|이발|바버|barber|커트|컷트|\(컷\)|컷\b|펌|염색|네일|왁싱|피부관리|마사지|올리브영|화장품|스킨|로션|선크림|미용/i,
+  telecom: /통신|skt|sk텔레콤|sk 텔레콤|#skt|\bkt\b|케이티|lg유플러스|유플러스|u\+|lgu|알뜰폰|인터넷요금|휴대폰|핸드폰|모바일요금|로밍|헬로모바일|kt엠모바일|세븐모바일/i,
+  subscribe: /구독|넷플릭스|netflix|유튜브|youtube|멤버십|membership|클럽|프리미엄|premium|apple\.com|애플|icloud|google|구글|chatgpt|openai|claude|anthropic|notion|노션|디즈니|disney|티빙|웨이브|쿠팡플레이|왓챠|멜론|지니|스포티파이|spotify|어도비|adobe|microsoft|ms365|드롭박스|dropbox|배민클럽|요기패스|쿠팡와우|네이버플러스|seats\.aero|릴리스/i,
+  insurance: /보험|생명|화재|손해보험|손보|실손|공제회/i,
+  donation: /후원|기부|정기후원|월드비전|유니세프|굿네이버스|컴패션|초록우산|세이브더칠드런|적십자|리더쉽코리아|리더십코리아|리더십학교/i,
+  housing: /관리비|전기요금|가스요금|수도요금|도시가스|한전|공과금|월세|임대료/i,
+  shopping: /물품|구입|구매|생필품|쿠팡|다이소|이마트|홈플러스|롯데마트|코스트코|트레이더스|올리브영|무신사|지그재그|에이블리|11번가|g마켓|지마켓|옥션|ssg|위메프|티몬|알리익스프레스|aliexpress|테무|temu|아마존|amazon|교보문고|영풍문고|yes24|알라딘|도서|책|문구|의류|옷|신발|가방|전자|가전|하이마트|애플스토어|생수|세제|휴지/i,
+  leisure: /놀유니버스|인터파크|티켓링크|멜론티켓|영화|cgv|씨지브이|메가박스|롯데시네마|공연|뮤지컬|콘서트|전시|박물관|미술관|티켓|야구|축구|농구|경기|볼링|당구|노래방|코인노래|pc방|게임|충전|컴투스|넥슨|넷마블|엔씨|스팀|steam|닌텐도|플레이스테이션|사우나|찜질|스파|수영|헬스|피트니스|요가|필라테스|골프|등산|캠핑|낚시|놀이공원|에버랜드|롯데월드|입장료/i,
+  // 식비 쪼개기
+  mealMemo: /식사|점심|저녁|아침|조식|중식|석식|브런치|식대|외식|도시락|배달|야식|밥|한끼|끼니|회식|만찬|오찬|정식|백반|국밥|찌개|고기|삼겹|치킨|피자|족발|보쌈|분식|김밥|라면|냉면|짜장|짬뽕|초밥|스시|돈까스|파스타|샐러드|햄버거|버거세트/i,
+  snackMemo: /간식|카페|커피|음료|디저트|빵|베이커리|케이크|케익|아이스크림|빙수|탕후루|도넛|도너츠|쿠키|과자|젤리|초콜릿|초코|아메리카노|라떼|스무디|버블티|밀크티|에이드|주스|쥬스|자판기|팝콘|떡|붕어빵|호떡|와플|마카롱|요거트|티타임/i,
+  cafeShop: /스타벅스|starbucks|투썸|twosome|폴바셋|paul ?bassett|컴포즈|메가커피|메가엠지씨|mgc커피|이디야|ediya|빽다방|할리스|hollys|커피빈|coffee ?bean|파스쿠찌|엔제리너스|탐앤탐스|블루보틀|매머드|더벤티|공차|텐퍼센트|우지커피|빈브라더스|커피|카페|cafe|coffee|베이커리|bakery|제과|파리바게|뚜레쥬르|성심당|던킨|크리스피|배스킨|베스킨|설빙|아이스크림|디저트|도넛|탕후루|요거트|요아정|와플|마카롱|떡집|빵|gs25|지에스25|(^|[^a-z])cu([^a-z]|$)|씨유|세븐일레븐|7-?eleven|이마트24|emart24|미니스톱|편의점|자판기|밴딩|벤딩|vending/i,
+  fastFood: /맥도날드|mcdonald|버거킹|burger ?king|롯데리아|kfc|맘스터치|노브랜드버거|프랭크버거|서브웨이|subway|쉐이크쉑|shake ?shack/i,
+};
+
+function cmNorm(s) { return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim(); }
+function cmMerchantKey(m) { return String(m || '').toLowerCase().replace(/\(주\)|㈜|주식회사|\s|[()\[\]·.,_-]/g, ''); }
+function cmParens(memo) { const out = []; String(memo || '').replace(/[(（]([^)）]*)[)）]/g, (_, x) => { out.push(...x.split(/[,/·&+ ]+/).map(v => v.trim()).filter(Boolean)); return _; }); return out; }
+function cmIsPerson(word) {
+  const w = String(word || '').replace(/\d+인$/, '');
+  if (!w || CM.notName.test(w)) return false;
+  if (CM.honor.test(w) && /[가-힣]/.test(w) && w.length >= 2) return !CM.family.test(w);
+  return /^[가-힣]{3}$/.test(w) && CM.surname.includes(w[0]);
+}
+// 메모·괄호에 함께한 사람·자리가 있는가
+function cmMeetSignal(memo) {
+  const m = String(memo || '');
+  if (CM.meetWord.test(m)) return CM.meetWord.exec(m)[0];
+  const p = cmParens(m).find(cmIsPerson);
+  return p || null;
+}
+
+// 거래 1건 분류 → { to, conf: 'auto'|'rule'|'guess'|'keep', why }
+function classifyTxV51(t, opts) {
+  const from = t.category || '';
+  const memo = String(t.memo || ''), mer = String(t.merchant || ''), extra = String((opts && opts.extraText) || '');
+  const text = cmNorm(mer + ' ' + memo + ' ' + extra), memoN = cmNorm(memo + ' ' + extra);
+  const tag = t.tag || '';
+  const hasTravelTag = CM.travelTag.includes(tag);
+  const R = (to, conf, why) => ({ to, conf, why });
+  const hit = (re, s) => { const m = re.exec(s); return m ? m[0] : null; };
+  let h;
+
+  if (from === '경조사' || from === '헌금') return R(from, 'keep', '그대로');
+  if (!CAT_OLD_NAMES.includes(from) && !CAT_RENAME[from]) return R(from, 'keep', '그대로');
+
+  // 1) 경조사 금전·선물 — 구분과 상관없이(구독·보험·후원 제외)
+  if (!['구독비', '보험료', '후원금'].includes(from)) {
+    if ((h = hit(CM.event, text))) return R('경조사', 'rule', `"${h}" → 경조사`);
+    if ((h = hit(CM.gift, text))) return R('선물', 'rule', `"${h}" → 선물`);
+    if ((h = hit(CM.giftWeak, text)) && !/충전|게임|문화상품권|본인/.test(text)) return R('선물', 'guess', `"${h}" → 선물로 추정`);
+  }
+  if (from === '선물비') return R('선물', 'auto', '이름 변경');
+  if (from === '구독비') return R('구독', 'auto', '이름 변경');
+  if (from === '보험료') return (h = hit(/여행자보험/, text)) ? R('여행', 'rule', `"${h}" → 여행`) : R('보험', 'auto', '이름 변경');
+  if (from === '후원금') return R('후원', 'auto', '이름 변경');
+
+  // 2) 여행: 해외·여행항공 혜택 태그(식비·여가·기타·교통) 또는 항공·숙박 등 단어(식비는 단어 제외 — 호텔 식당 등)
+  if (['식비', '여가비', '기타비', '교통비', '생활비', '고정비', '물품비'].includes(from)) {
+    if (hasTravelTag && from !== '물품비') return R('여행', 'rule', `혜택 "${tag}" → 여행`);
+    if (from !== '식비' && from !== '물품비' && (h = hit(CM.travel, text))) return R('여행', 'rule', `"${h}" → 여행`);
+    if (from === '물품비' && tag === '여행항공') return R('여행', 'rule', `혜택 "${tag}" → 여행`);
+  }
+
+  if (from === '교통비') return R('교통', 'auto', '이름 변경');
+
+  // 3) 식비 → 모임 / 카페·간식 / 식사
+  if (from === '식비') {
+    if ((h = cmMeetSignal(memo))) return R('모임', 'rule', `함께: "${h}" → 모임`);
+    const meal = hit(CM.mealMemo, memoN), snack = hit(CM.snackMemo, memoN);
+    if (meal && !snack) return R('식사', 'rule', `메모 "${meal}" → 식사`);
+    if (snack && !meal) return R('카페·간식', 'rule', `메모 "${snack}" → 카페·간식`);
+    if (meal && snack) return /식사|점심|저녁|아침|브런치/.test(memoN) ? R('식사', 'rule', `메모 "${meal}" → 식사`) : R('카페·간식', 'rule', `메모 "${snack}" → 카페·간식`);
+    if ((h = hit(CM.cafeShop, cmNorm(mer)))) return R('카페·간식', 'rule', `가맹점 "${h}" → 카페·간식`);
+    if ((h = hit(CM.fastFood, cmNorm(mer)))) return t.amount <= 7000 ? R('카페·간식', 'guess', `패스트푸드·${won(t.amount)} → 간식으로 추정`) : R('식사', 'guess', `패스트푸드·${won(t.amount)} → 식사로 추정`);
+    return t.amount <= 6000 ? R('카페·간식', 'guess', `단서 없음·${won(t.amount)} → 간식으로 추정`) : R('식사', 'guess', '단서 없음 → 식사로 추정');
+  }
+
+  // 4) 공통 성격 판별(여가·기타·생활·고정·물품)
+  // 메모를 먼저, 그다음 거래처 이름으로 성격을 본다(예: 거래처 '놀유니버스'의 '버스'보다 메모 '야구티켓'이 우선)
+  const natureOf = (src, isMemo) => {
+    if (isMemo && (h = hit(CM.feeWord, src))) return R('모임', 'rule', `"${h}" → 모임`);
+    if ((h = hit(CM.leisure, src)) && from === '여가비') return R('여가', 'rule', `"${h}" → 여가`);
+    if ((h = hit(CM.telecom, src)) && from !== '여가비') return R('통신', 'rule', `"${h}" → 통신`);
+    if ((h = hit(CM.health, src))) return R('건강·미용', 'rule', `"${h}" → 건강·미용`);
+    if ((h = hit(CM.transport, src))) return R('교통', 'rule', `"${h}" → 교통`);
+    if (from !== '여가비' && from !== '물품비') {
+      if ((h = hit(CM.insurance, src))) return R('보험', 'rule', `"${h}" → 보험`);
+      if ((h = hit(CM.subscribe, src))) return R('구독', 'rule', `"${h}" → 구독`);
+      if ((h = hit(CM.donation, src))) return R('후원', 'rule', `"${h}" → 후원`);
+    }
+    if (from !== '물품비' && (h = hit(CM.leisure, src))) return R('여가', 'rule', `"${h}" → 여가`);
+    if (isMemo && from !== '물품비' && from !== '여가비') {
+      if ((h = hit(CM.mealMemo, src))) return cmMeetSignal(memo) ? R('모임', 'rule', '함께한 식사 → 모임') : R('식사', 'rule', `"${h}" → 식사`);
+      if ((h = hit(CM.snackMemo, src))) return R('카페·간식', 'rule', `"${h}" → 카페·간식`);
+    }
+    if (!isMemo && from !== '물품비' && from !== '여가비' && (h = hit(CM.cafeShop, src))) return R('카페·간식', 'rule', `가맹점 "${h}" → 카페·간식`);
+    if (from !== '물품비' && from !== '여가비' && (h = hit(CM.shopping, src))) return R('쇼핑', 'rule', `"${h}" → 쇼핑`);
+    return null;
+  };
+  const byNature = (fallback, fallbackConf, fallbackWhy) => natureOf(memoN, true) || natureOf(cmNorm(mer), false) || R(fallback, fallbackConf, fallbackWhy);
+  if (from === '물품비') return byNature('쇼핑', 'auto', '이름 변경');
+  if (from === '여가비') return byNature('여가', 'auto', '이름 변경');
+  if (from === '기타비') return byNature('기타', 'auto', '이름 변경');
+  if (from === '생활비' || from === '고정비') {
+    if ((h = hit(CM.housing, text))) return R('기타', 'guess', `"${h}" — 주거·공과 구분 없음 → 기타`);
+    return byNature('기타', 'guess', `${from}: 단서 없음 → 기타`);
+  }
+  // 그 밖의 이름 변경 대상(사용자 추가 이름)
+  if (CAT_RENAME[from]) return R(CAT_RENAME[from], 'auto', '이름 변경');
+  return R(from, 'keep', '그대로');
+}
+
+// 전체 재분류 계획: 1차 규칙 → 2차 같은 거래처 이력(추정 건만 보정)
+function planCategoryMigration(transactions, fixedItems) {
+  const fxName = {}; (fixedItems || []).forEach(it => { fxName[it.id] = it.name || ''; });
+  const plan = [];
+  (transactions || []).forEach(t => {
+    if (t.type !== 'expense') return;
+    const r = classifyTxV51(t, { extraText: t.fixedId ? fxName[t.fixedId] : '' });
+    plan.push({ id: t.id, from: t.category, to: r.to, conf: r.conf, why: r.why });
+  });
+  // 2차: 추정(guess) 건은 같은 거래처의 확실한(rule) 분류 다수결을 따름 — 같은 원래 구분 안에서만
+  const byKey = {};
+  const txById = {}; (transactions || []).forEach(t => { txById[t.id] = t; });
+  plan.forEach(p => {
+    if (p.conf !== 'rule') return;
+    const t = txById[p.id], k = cmMerchantKey(t.merchant);
+    if (!k) return;
+    const key = p.from + '|' + k;
+    (byKey[key] = byKey[key] || {})[p.to] = (byKey[key][p.to] || 0) + 1;
+  });
+  plan.forEach(p => {
+    if (p.conf !== 'guess') return;
+    const t = txById[p.id], k = cmMerchantKey(t.merchant);
+    const votes = k && byKey[p.from + '|' + k];
+    if (!votes) return;
+    const [best, n] = Object.entries(votes).sort((a, b) => b[1] - a[1])[0];
+    const total = Object.values(votes).reduce((a, b) => a + b, 0);
+    if (n / total >= 0.6) { p.to = best; p.conf = 'rule'; p.why = `같은 거래처 이력 ${n}/${total}건 → ${best}`; }
+  });
+  return plan;
+}
+
+
+// ============================================================
 // 개인 수입지출 관리 시스템 - 핵심 계산 엔진
 // (브라우저 HTML에 그대로 이식될 순수 함수 모음. 외부 의존성 없음)
 // ============================================================
@@ -2140,17 +2491,11 @@ const DEFAULT_SETTINGS = {
   specialTags: ['해외', '여행항공', '면세점', '특급호텔', '골프'],
   specialTagLimit: 3000000,     // 특별태그별 월 한도
   incomeCategories: ['급여', '일반', '이자'],
-  expenseCategoryGroups: {
-    // 요약시트(그리고 대시보드) 표시 순서 및 예산검산 그룹
-    '식비': 'general', '물품비': 'general', '여가비': 'general', '기타비': 'general',
-    '생활비': 'fixed', '교통비': 'fixed', '구독비': 'fixed', '후원금': 'fixed', '보험료': 'fixed', '고정비': 'fixed',
-    '경조사': 'extra', '선물비': 'extra',
-    '헌금': 'tithe',
-  },
-  expenseCategoryOrder: ['식비', '물품비', '여가비', '생활비', '교통비', '구독비', '후원금', '보험료', '고정비', '선물비', '경조사', '헌금', '기타비'],
+  // v5.1.0 분류: 그룹 = 관리 방식(변동 general · 고정 fixed · 경조·선물 extra · 여행 travel · 헌금 tithe), 구분 = 무엇에 썼나
+  expenseCategoryGroups: Object.assign({}, CAT_V51_GROUPS),
+  expenseCategoryOrder: CAT_V51_ORDER.slice(),
   methods: ['현금', '현대', '현플', '현골', '신한', '국민', '삼성'],
   categoryBudgets: {},          // 카테고리별 월 예산 상한 { 카테고리명: 금액 } — 설정된 것만 경고 대상
-  taxRelevantCategories: ['헌금', '후원금'], // 연말정산 참고자료에 포함할 지출 카테고리(기부금 등, 사용자가 자유롭게 조정)
 };
 
 function monthKey(dateStr) {
@@ -2216,10 +2561,10 @@ function aggregateMonth(transactions, savings, ym, settings, mrAdjustments) {
   });
   const expenseNetTotal = expense.total - expense.totalDeduction;
 
-  // 예산검산 그룹 (일반/고정지출/부가지출/헌금)
-  const groupSum = { general: 0, fixed: 0, extra: 0, tithe: 0 };
+  // 예산검산 그룹 (변동/고정/경조·선물/여행/헌금)
+  const groupSum = { general: 0, fixed: 0, extra: 0, travel: 0, tithe: 0 };
   Object.entries(settings.expenseCategoryGroups).forEach(([cat, grp]) => {
-    groupSum[grp] += expense.byCategory[cat] || 0;
+    if (grp) groupSum[grp] = (groupSum[grp] || 0) + (expense.byCategory[cat] || 0);
   });
 
   const salary = income.byCategory[settings.salaryCategoryName] || 0; // 그 달 실제 급여(보너스가 이 구분으로 들어오면 포함됨)
@@ -2311,9 +2656,9 @@ function aggregateRange(transactions, savings, startDate, endDate, settings, mrA
   });
   const expenseNetTotal = expense.total - expense.totalDeduction;
 
-  const groupSum = { general: 0, fixed: 0, extra: 0, tithe: 0 };
+  const groupSum = { general: 0, fixed: 0, extra: 0, travel: 0, tithe: 0 };
   Object.entries(settings.expenseCategoryGroups).forEach(([cat, grp]) => {
-    groupSum[grp] += expense.byCategory[cat] || 0;
+    if (grp) groupSum[grp] = (groupSum[grp] || 0) + (expense.byCategory[cat] || 0);
   });
 
   let mrTotal = 0, mrGeneral = 0, mrSpecial = 0;
@@ -2376,26 +2721,6 @@ function computeNetWorth(assetAccounts, asOfDate) {
   });
   return { assets, liabilities, netWorth: assets - liabilities, perAccount };
 }
-
-// ---- 연말정산 참고자료 집계 (실제 세액 계산은 하지 않음 — 소득구간 등은 사용자가 직접 연동) ----
-function computeTaxSummary(transactions, year, settings) {
-  const txs = transactions.filter(t => t.type === 'expense' && yearOf(t.date) === String(year));
-  let cardTotal = 0, cashTotal = 0;
-  txs.forEach(t => {
-    const net = t.amount - (t.deduction || 0);
-    if (t.method === '현금') cashTotal += net; else cardTotal += net;
-  });
-  const taxRelevant = {};
-  (settings.taxRelevantCategories || []).forEach(cat => taxRelevant[cat] = 0);
-  txs.forEach(t => {
-    if (Object.prototype.hasOwnProperty.call(taxRelevant, t.category)) {
-      taxRelevant[t.category] += (t.amount - (t.deduction || 0));
-    }
-  });
-  const taxRelevantTotal = Object.values(taxRelevant).reduce((a, b) => a + b, 0);
-  return { year: String(year), cardTotal, cashTotal, taxRelevant, taxRelevantTotal };
-}
-
 
 function buildCategoryMap(transactions) {
   const map = {};
@@ -2648,7 +2973,7 @@ function parseStandardSheet(aoa) {
       if (!date || !merchant || amount == null || amount === '') continue;
       if (isExample(merchant, memo)) continue;
       expense.push({
-        date, type: 'expense', method: method || null, category: category || '기타비',
+        date, type: 'expense', method: method || null, category: category || '기타',
         merchant, memo: memo || '', amount: Number(amount),
         tag: tag || null, deduction: Number(deduction) || 0,
       });
@@ -2830,7 +3155,7 @@ function parseStandardWorkbook(XLSXutils, workbook) {
 
 const STORAGE_KEY = 'ledger_app_v1';
 const BRAND_KEY = 'ledger_brand_name';
-const APP_VERSION = 'v5.0.1';
+const APP_VERSION = 'v5.1.0';
 // v4.7.0: 표준양식 템플릿 — 지출·수입·저축을 시트별 단순 표로(제목 1줄 + 행 수 제한 없음, 합계 행 없음).
 // 내 설정의 수단·구분·혜택 목록을 드롭다운으로 넣어 앱 안에서 바로 만든다(설정을 바꾸면 새로 받은 템플릿에 반영).
 const TEMPLATE_ROWS = 10000; // 드롭다운·서식을 미리 걸어 두는 행 수(이보다 많이 적어도 인식은 그대로 됨)
@@ -3135,6 +3460,7 @@ async function connectGitHubSync(token, passphrase) {
         if (!Array.isArray(STATE.fixedItems)) STATE.fixedItems = [];
         if (!Array.isArray(STATE.savingsGoals)) STATE.savingsGoals = [];
         localStorage.setItem(STORAGE_KEY, JSON.stringify(STATE));
+        setTimeout(checkCategoryMigration, 0);
       }
     } else {
       // 원격에 아직 데이터가 없으면 이 기기 데이터로 새로 만듦
@@ -3232,6 +3558,7 @@ async function checkRemoteOnLoad() {
         saveSyncConfig(cfg);
         switchView(CURRENT_VIEW);
         renderSidebarCounts();
+        checkCategoryMigration();
       }
     }
     setSyncStatus('연결됨', 'ok');
@@ -3409,13 +3736,8 @@ function renderDashboard() {
       : `<div class="stat stat-yearnet"><div class="stat-label">월평균 지출 (${span}개월)</div><div class="stat-value">${won(Math.round(agg.expenseNetTotal / span))}</div><div class="stat-sub">월평균 순이익 ${won(Math.round(agg.netProfit / span))}</div></div>`}
   `;
 
-  // 카테고리별 지출: 일반비 / 고정비 / 부가비 / 헌금 4개 그룹 — 도넛 가운데 총지출
-  const groupDefs = [
-    { key: 'general', label: '일반비', color: GROUP_COLORS.general },
-    { key: 'fixed', label: '고정비', color: GROUP_COLORS.fixed },
-    { key: 'extra', label: '부가비', color: GROUP_COLORS.extra },
-    { key: 'tithe', label: '헌금', color: GROUP_COLORS.tithe },
-  ];
+  // 카테고리별 지출: 변동·고정·경조·선물·여행·헌금 그룹 — 도넛 가운데 총지출
+  const groupDefs = Object.keys(GROUP_LABELS).map(key => ({ key, label: GROUP_LABELS[key], color: GROUP_COLORS[key] }));
   const groupEntries = groupDefs.map(g => ({ ...g, value: agg.groupSum[g.key] || 0 }));
   const groupTotal = groupEntries.reduce((a,g)=>a+g.value,0);
   document.getElementById('catGroupSummary').innerHTML = groupTotal > 0 ? `
@@ -3463,13 +3785,7 @@ function renderDashboard() {
 
   // 예산 게이지(월 단위): 사용액/한도 + 남은 금액(또는 초과액). 이번 달이면 세로선 = 오늘까지 지난 날짜 비율
   if (isMonth) {
-  const genUsed = agg.groupSum.general + agg.groupSum.fixed;
-  const extraUsed = agg.groupSum.extra;
-  const extraBase = (agg.income.byCategory['일반'] || 0) + (agg.income.byCategory['이자'] || 0);
-  document.getElementById('budgetGauges').innerHTML =
-    budgetGaugeHtml('생활예산 (일반+고정지출)', genUsed, agg.budget.generalBudget, pace) +
-    budgetGaugeHtml('부가지출 (경조사·선물)', extraUsed, extraBase, null) +
-    `<div class="gauge-foot" style="margin-top:2px;"><span>십일조 기준액 ${won(agg.budget.titheBudget)}</span><span>이번달 헌금 ${won(agg.expense.byCategory['헌금']||0)}</span></div>`;
+  renderBudgetCard(agg);
 
   document.getElementById('specialGauges').innerHTML = `<div class="mini-gauges">${s.specialTags.map(tag => {
     const used = agg.specialUsage[tag] || 0;
@@ -6057,7 +6373,7 @@ function generateExportPDF(subjects, period) {
   const budgetTotal = Math.round(salaryTotal * s.salaryBudgetRate / 1000) * 1000;
   const budgetPct = budgetTotal > 0 ? Math.round(genUsed/budgetTotal*100) : 0;
   const budgetHtml = budgetTotal > 0 ? `<div class="rpt-section"><h2>생활예산 사용 현황</h2>
-    <div style="display:flex;justify-content:space-between;font-size:9.5px;"><span>일반+고정지출</span><b>${won(genUsed)} / ${won(budgetTotal)}</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5px;"><span>변동+고정지출</span><b>${won(genUsed)} / ${won(budgetTotal)}</b></div>
     <div class="rpt-gauge-track"><div class="rpt-gauge-fill ${budgetPct>100?'over':''}" style="width:${Math.min(100,budgetPct)}%"></div></div></div>` : '';
 
   let sections = '';
@@ -6082,18 +6398,6 @@ function generateExportPDF(subjects, period) {
     const savRows = STATE.savings.filter(sv=>sv.date>=period.start && sv.date<=period.end).sort((a,b)=>a.date.localeCompare(b.date))
       .map(sv => `<tr><td>${sv.date}</td><td>${escapeHtml(sv.type)}</td><td>${escapeHtml(sv.memo||'')}</td><td style="text-align:right">${won(sv.amount)}</td></tr>`).join('');
     sections += `<div class="rpt-section"><h2>저축내역</h2><table class="rpt-table"><thead><tr><th>날짜</th><th>구분</th><th>내용</th><th style="text-align:right">금액</th></tr></thead><tbody>${savRows||'<tr><td colspan="4" style="color:#8B9488;">내역이 없습니다.</td></tr>'}</tbody></table></div>`;
-  }
-
-  if (subjects.includes('tax')) {
-    const tax = computeTaxSummary(STATE.transactions, period.year || period.start.slice(0,4), s);
-    const taxRows = Object.entries(tax.taxRelevant).map(([cat,amt]) => `<tr><td>${escapeHtml(cat)}</td><td style="text-align:right">${won(amt)}</td></tr>`).join('');
-    sections += `<div class="rpt-section"><h2>연말정산 참고자료 (${tax.year}년 · 실제 공제·세액은 소득구간 등을 반영해 직접 계산)</h2>
-      <table class="rpt-table"><tbody>
-        <tr><td>카드 등 사용금액 합계</td><td style="text-align:right"><b>${won(tax.cardTotal)}</b></td></tr>
-        <tr><td>현금 사용금액 합계</td><td style="text-align:right">${won(tax.cashTotal)}</td></tr>
-      </tbody></table>
-      <div style="margin-top:8px;font-size:9.5px;color:#52604F;">공제 참고 카테고리 (설정에서 지정)</div>
-      <table class="rpt-table"><thead><tr><th>구분</th><th style="text-align:right">금액</th></tr></thead><tbody>${taxRows||'<tr><td colspan="2" style="color:#8B9488;">지정된 카테고리가 없습니다.</td></tr>'}<tr style="font-weight:700;"><td>합계</td><td style="text-align:right">${won(tax.taxRelevantTotal)}</td></tr></tbody></table></div>`;
   }
 
   if (subjects.includes('assets')) {
@@ -6153,12 +6457,7 @@ function printDashboard() {
     { label: `${year}년 순이익(연초누적)`, value: yearNetCum, cls: yearNetCum>=0?'net-pos':'net-neg' },
   ].map(b => `<div class="rpt-stat ${b.cls}"><div class="rpt-stat-label">${b.label}</div><div class="rpt-stat-value">${won(b.value)}</div></div>`).join('');
 
-  const groupDefsP = [
-    { key: 'general', label: '일반비', color: GROUP_COLORS.general },
-    { key: 'fixed', label: '고정비', color: GROUP_COLORS.fixed },
-    { key: 'extra', label: '부가비', color: GROUP_COLORS.extra },
-    { key: 'tithe', label: '헌금', color: GROUP_COLORS.tithe },
-  ];
+  const groupDefsP = Object.keys(GROUP_LABELS).map(key => ({ key, label: GROUP_LABELS[key], color: GROUP_COLORS[key] }));
   const groupEntriesP = groupDefsP.map(g => ({ ...g, value: agg.groupSum[g.key] || 0 })).filter(g=>g.value>0);
   const groupTotalP = groupEntriesP.reduce((a,g)=>a+g.value,0);
   const catHtml = groupTotalP > 0 ? `<div style="display:flex;gap:18px;align-items:center;">
@@ -6188,7 +6487,7 @@ function printDashboard() {
 <div class="rpt-two-col">
   <div class="rpt-section"><h2>카테고리별 지출</h2>${catHtml}</div>
   <div class="rpt-section"><h2>생활예산 사용 현황</h2>
-    <div style="display:flex;justify-content:space-between;font-size:9.5px;"><span>일반+고정지출</span><b>${won(genUsed)} / ${won(budgetTotal)}</b></div>
+    <div style="display:flex;justify-content:space-between;font-size:9.5px;"><span>변동+고정지출</span><b>${won(genUsed)} / ${won(budgetTotal)}</b></div>
     <div class="rpt-gauge-track"><div class="rpt-gauge-fill ${budgetPct>100?'over':''}" style="width:${Math.min(100,budgetPct)}%"></div></div>
     <div style="font-size:9px;color:#8B9488;margin-top:8px;">MR 적립: ${agg.mrTotal.toLocaleString()} · 저축: ${won(agg.savingsTotal)}</div>
   </div>
@@ -6211,8 +6510,8 @@ function printDashboard() {
   setTimeout(() => { try { win.focus(); win.print(); } catch(e){} }, 500);
 }
 
-const GROUP_LABELS = { general: '일반지출', fixed: '고정지출', extra: '부가지출', tithe: '헌금' };
-const GROUP_COLORS = { general: '#0E6B4E', fixed: '#3E6B8C', extra: '#7A5C99', tithe: '#9C7A1F' };
+const GROUP_LABELS = { general: '변동지출', fixed: '고정지출', extra: '경조·선물', travel: '여행', tithe: '헌금' };
+const GROUP_COLORS = { general: '#0E6B4E', fixed: '#3E6B8C', extra: '#7A5C99', travel: '#2B8A9E', tithe: '#9C7A1F' };
 function renderSettings() {
   const s = STATE.settings;
   document.getElementById('s_brandName').value = document.getElementById('brandMark').textContent;
@@ -6228,20 +6527,27 @@ function renderSettings() {
     </div>`;
   }).join('');
 
-  document.getElementById('expenseCatList').innerHTML = s.expenseCategoryOrder.map(c => {
-    // 그룹이 비어 있으면(예: 가져오기로 생긴 구분) '미지정'으로 보여 준다 — 미지정은 대시보드 그룹 합계·생활예산에서 빠짐
+  // 그룹별로 묶어 표시(관리 방식 → 구분). 그룹이 비어 있으면 '미지정' — 대시보드 그룹 합계·생활예산에서 빠짐
+  const catRow = (c) => {
     const grp = s.expenseCategoryGroups[c] || '';
+    const ec = escapeHtml(c).replace(/'/g, "\\'");
     const opts = (grp ? '' : '<option value="" selected>미지정</option>') + Object.entries(GROUP_LABELS).map(([k,label]) => `<option value="${k}" ${k===grp?'selected':''}>${label}</option>`).join('');
     const budget = s.categoryBudgets[c] || '';
     const budgetDisplay = budget ? Number(budget).toLocaleString('en-US') : '';
-    const taxRel = (s.taxRelevantCategories||[]).includes(c);
-    return `<div class="settings-row settings-row-wide${grp ? '' : ' unassigned'}">
-      <select onchange="setExpenseCategoryGroup('${escapeHtml(c)}',this.value)">${opts}</select>
-      <span class="settings-row-name">${escapeHtml(c)}</span>
-      <input type="text" inputmode="numeric" class="settings-budget-input" placeholder="월예산" value="${budgetDisplay}" oninput="formatAmtField(this)" onchange="setCategoryBudget('${escapeHtml(c)}',this.value)">
-      <label class="settings-check" title="연말정산 참고자료에 포함"><input type="checkbox" ${taxRel?'checked':''} onchange="toggleTaxRelevant('${escapeHtml(c)}',this.checked)"> 공제참고</label>
-      <button class="icon-btn danger" onclick="removeExpenseCategory('${escapeHtml(c)}')" title="삭제"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    const i = s.expenseCategoryOrder.indexOf(c);
+    return `<div class="settings-row settings-row-wide cat-set-row${grp ? '' : ' unassigned'}">
+      <span class="order-btns"><button class="icon-btn" onclick="moveExpenseCategory('${ec}',-1)" ${i === 0 ? 'disabled' : ''} title="앞으로">${SVG.up}</button><button class="icon-btn" onclick="moveExpenseCategory('${ec}',1)" ${i === s.expenseCategoryOrder.length - 1 ? 'disabled' : ''} title="뒤로">${SVG.down}</button></span>
+      <i class="cd" style="background:${catColor(c)}"></i><span class="settings-row-name">${escapeHtml(c)}</span>
+      <select onchange="setExpenseCategoryGroup('${ec}',this.value)">${opts}</select>
+      <input type="text" inputmode="numeric" class="settings-budget-input" placeholder="월예산" value="${budgetDisplay}" oninput="formatAmtField(this)" onchange="setCategoryBudget('${ec}',this.value)">
+      <button class="icon-btn danger" onclick="removeExpenseCategory('${ec}')" title="삭제"><svg class="icon" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
     </div>`;
+  };
+  const grpKeys = [...Object.keys(GROUP_LABELS), ''];
+  document.getElementById('expenseCatList').innerHTML = grpKeys.map(g => {
+    const cats = s.expenseCategoryOrder.filter(c => (s.expenseCategoryGroups[c] || '') === g);
+    if (!cats.length) return '';
+    return `<div class="cat-set-group"><div class="cat-set-head"><i style="background:${GROUP_COLORS[g] || 'var(--rust)'}"></i>${g ? GROUP_LABELS[g] : '미지정'}<small>${cats.length}</small></div>${cats.map(catRow).join('')}</div>`;
   }).join('');
 
   document.getElementById('incomeCatList').innerHTML = s.incomeCategories.map(c =>
@@ -6261,6 +6567,7 @@ function renderSettings() {
   document.getElementById('s_specialLimit').value = (s.specialTagLimit || 0).toLocaleString('en-US');
   renderMobileTabsSetting();
   renderDashWidgetSetting();
+  renderCatMigSetting();
   renderSyncBox();
 }
 function saveBrandNameFromSettings() {
@@ -6288,12 +6595,6 @@ function setCategoryBudget(cat, value) {
   saveState();
   renderDashboard();
 }
-function toggleTaxRelevant(cat, checked) {
-  const list = STATE.settings.taxRelevantCategories;
-  if (checked && !list.includes(cat)) list.push(cat);
-  if (!checked) STATE.settings.taxRelevantCategories = list.filter(x => x !== cat);
-  saveState();
-}
 function addMethod() {
   const input = document.getElementById('newMethodInput');
   const v = input.value.trim();
@@ -6317,8 +6618,10 @@ function addExpenseCategory() {
   const group = document.getElementById('newCatGroup').value;
   if (!v) return;
   if (!STATE.settings.expenseCategoryOrder.includes(v)) {
-    STATE.settings.expenseCategoryOrder.push(v);
-    STATE.settings.expenseCategoryGroups[v] = group;
+    const o = STATE.settings.expenseCategoryOrder, g = STATE.settings.expenseCategoryGroups;
+    let at = -1; o.forEach((c, i) => { if (g[c] === group) at = i; });
+    if (at >= 0) o.splice(at + 1, 0, v); else o.push(v);
+    g[v] = group;
   }
   input.value = '';
   logActivity('settings', 'category', `지출 카테고리 "${v}" 추가 (${GROUP_LABELS[group]})`, null, v);
@@ -6514,7 +6817,7 @@ function stageImport(data) {
   const mapRow = (r, kind) => {
     const dup = isDuplicate(Object.assign({ kind }, r), STATE.transactions, STATE.savings);
     let category = r.category;
-    if (kind === 'expense' && !category) category = suggestCategory(r.merchant, STATE.categoryMap) || STATE.settings.expenseCategoryOrder[0];
+    if (kind === 'expense' && !category) category = suggestCategory(r.merchant, STATE.categoryMap) || guessCategoryV51(r.merchant, r.memo, r.amount, r.tag) || (STATE.settings.expenseCategoryOrder.includes('기타') ? '기타' : STATE.settings.expenseCategoryOrder[0]);
     if (kind === 'income' && !category) category = STATE.settings.incomeCategories[0];
     const staged = Object.assign({ id: uid('imp'), include: !dup, kind, category }, r);
     staged.origAmount = Number(staged.amount) || 0; // 파일에 적힌 원래 금액(금액 수정 여부 표시·중복 판정용)
@@ -6815,6 +7118,7 @@ function restoreBackup(evt) {
       saveState();
       switchView('dashboard');
       toast('복원했습니다.');
+      checkCategoryMigration();
     } catch (err) { toast('복원 실패: ' + err.message); }
   };
   reader.readAsText(file, 'utf-8');
@@ -6826,6 +7130,7 @@ function resetAllData() {
     transactions: [], savings: [], categoryMap: {}, settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)),
     activityLog: [], mrAdjustments: [], assetAccounts: [], recurringTemplates: [], fixedItems: [], savingsGoals: [], lastBackupAt: null,
   };
+  STATE.settings.catV51 = true;
   logActivity('reset', 'data', '전체 데이터 초기화', null, null);
   saveState();
   switchView('dashboard');
@@ -7070,30 +7375,6 @@ function buildActivityLogSheet(wb, startDate, endDate) {
   });
 }
 
-function buildTaxSheet(wb, s, periodYear) {
-  const ws = wb.addWorksheet('연말정산참고');
-  ws.getColumn(1).width = 22; ws.getColumn(2).width = 16;
-  ws.mergeCells('A1:B1');
-  ws.getCell('A1').value = `${periodYear}년 연말정산 참고자료 (실제 공제·세액은 소득구간 등을 반영해 직접 계산해 주세요)`;
-  ws.getCell('A1').font = { bold: true, size: 11, name: 'Arial' };
-  const tax = computeTaxSummary(STATE.transactions, periodYear, s);
-  let row = 3;
-  const addRow = (label, value, opts) => {
-    const c1 = ws.getCell(row, 1), c2 = ws.getCell(row, 2);
-    c1.value = label; c2.value = value; c2.numFmt = WON_FMT;
-    c1.font = { name: 'Arial', size: 10, bold: !!(opts&&opts.bold) };
-    c2.font = { name: 'Arial', size: 10, bold: !!(opts&&opts.bold) };
-    if (opts&&opts.fill) { c1.fill = xFill(opts.fill); c2.fill = xFill(opts.fill); c1.font.color = c2.font.color = { argb: XC.white }; }
-    row++;
-  };
-  addRow('카드 등 사용금액 합계', tax.cardTotal, { bold: true, fill: XC.ink });
-  addRow('현금 사용금액 합계', tax.cashTotal);
-  row++;
-  ws.getCell(row, 1).value = '공제 참고 카테고리별 지출 (설정에서 지정)'; ws.getCell(row,1).font = { bold: true, size: 10, name: 'Arial' }; row++;
-  Object.entries(tax.taxRelevant).forEach(([cat, amt]) => addRow('  ' + cat, amt));
-  addRow('공제 참고 합계', tax.taxRelevantTotal, { bold: true, fill: XC.gold });
-}
-
 function buildAssetsSheet(wb) {
   const ws = wb.addWorksheet('자산현황');
   ws.columns = [{ header: '계좌', key: 'name', width: 20 }, { header: '구분', key: 'type', width: 10 }, { header: '최근 잔액', key: 'balance', width: 14 }, { header: '기준일', key: 'asOf', width: 12 }];
@@ -7197,7 +7478,7 @@ function runExport(format) {
 function getSelectedExportSubjects() {
   return Array.from(document.querySelectorAll('#exportSubjects input:checked')).map(el => el.value);
 }
-const SUBJECT_LABELS = { ledger: '거래내역', category: '카테고리분석', mr: 'AMEX MR', tax: '연말정산 참고자료', assets: '자산 현황', activity: '활동 로그' };
+const SUBJECT_LABELS = { ledger: '거래내역', category: '카테고리분석', mr: 'AMEX MR', assets: '자산 현황', activity: '활동 로그' };
 
 async function exportExcel(subjects, period) {
   const s = STATE.settings;
@@ -7229,7 +7510,6 @@ async function exportExcel(subjects, period) {
   }
   if (subjects.includes('ledger')) { buildIncomeSheet(wb, period.start, period.end); buildExpenseSheet(wb, s, period.start, period.end); buildSavingsSheet(wb, period.start, period.end); }
   if (subjects.includes('mr')) buildMRSheet(wb, s, period.start, period.end);
-  if (subjects.includes('tax')) buildTaxSheet(wb, s, period.year || period.start.slice(0,4));
   if (subjects.includes('assets')) buildAssetsSheet(wb);
   if (subjects.includes('activity')) buildActivityLogSheet(wb, period.start, period.end);
 
@@ -7252,6 +7532,7 @@ const ESC_CLOSERS = [
   ['goalModalOverlay', () => closeSavingsGoalModal()], ['sortModalOverlay', () => closeSortModal()],
   ['mrAdjModalOverlay', () => closeMrAdjModal()], ['moreSheetOverlay', () => closeMoreSheet()],
   ['copyModalOverlay', () => closeCopyModal()], ['fixedItemModalOverlay', () => closeFixedItemModal()], ['fxAssignModalOverlay', () => closeFxAssignModal()],
+  ['catMigOverlay', () => closeCatMigration()],
 ];
 document.addEventListener('keydown', e => {
   if (e.key !== 'Escape') return;
@@ -7281,6 +7562,7 @@ function init() {
   setupDropzone();
   saveState();
   switchView('dashboard');
+  checkCategoryMigration();
   if (isSyncConfigured()) { setSyncStatus('연결됨', 'ok'); checkRemoteOnLoad(); }
   else { setSyncStatus('연결 안 됨', ''); }
 }
@@ -7570,7 +7852,7 @@ function fixedPayList(ym) {
   return v.rows.filter(r => r.active && (r.byMonth[ym] || (r.dueYm && r.dueYm <= ym))).map(r => {
     const paid = !!r.byMonth[ym];
     const day = (r.item.day || (r.latest ? Number(r.latest.date.slice(8, 10)) : null));
-    return { id: r.id, name: r.name, paid, amount: paid ? r.sum(ym) : r.expected, day, overdue: !paid && r.dueYm && r.dueYm < ym };
+    return { id: r.id, name: r.name, cat: r.cat, paid, amount: paid ? r.sum(ym) : r.expected, day, overdue: !paid && r.dueYm && r.dueYm < ym };
   }).sort((a, b) => (a.paid - b.paid) || ((a.day || 99) - (b.day || 99)));
 }
 function fixedPayHtml(ym, compact) {
@@ -7582,7 +7864,7 @@ function fixedPayHtml(ym, compact) {
       <span class="fp-n" onclick="goLedgerFixed('${f.id}','${ym}')">${escapeHtml(f.name)}</span>
       <small class="${f.overdue ? 'neg' : ''}">${f.overdue ? '밀림' : (f.day ? f.day + '일' : '')}</small>
       <b>${won(f.amount)}</b></div>`).join('');
-  return `<div class="fp-list">${rows}</div>${compact && list.length > 8 ? `<button class="link-btn" onclick="switchView('fixed')">${list.length - 8}개 더 보기</button>` : ''}`;
+  return `${fixedPaySummaryHtml(ym)}<div class="fp-list">${rows}</div>${compact && list.length > 8 ? `<button class="link-btn" onclick="switchView('fixed')">${list.length - 8}개 더 보기</button>` : ''}`;
 }
 function fixedPayCount(ym) { const l = fixedPayList(ym); return l.length ? `${l.filter(f => f.paid).length}/${l.length}` : ''; }
 
@@ -7622,12 +7904,11 @@ function renderLedgerRail() {
   document.getElementById('railCal').innerHTML = calendarHtml(ym, { size: 'sm', selected: LEDGER_DAY, onPick: 'pickLedgerDay' });
   const s = STATE.settings, agg = aggregateMonth(STATE.transactions, STATE.savings, ym, s, STATE.mrAdjustments);
   const rows = [];
-  if (agg.budget.generalBudget > 0) rows.push(['생활예산', agg.groupSum.general + agg.groupSum.fixed, agg.budget.generalBudget]);
   s.expenseCategoryOrder.forEach(c => { const b = s.categoryBudgets[c]; if (b) rows.push([c, agg.expense.byCategory[c] || 0, b]); });
-  document.getElementById('railBudget').innerHTML = rows.length ? rows.map(([n, v, b]) => {
+  document.getElementById('railBudget').innerHTML = budgetCardHtml(agg, ym, true) + rows.map(([n, v, b]) => {
     const p = v / b;
     return `<div class="rb-row"><span>${escapeHtml(n)}</span><i><em class="${p > 1 ? 'over' : p > 0.9 ? 'warn' : ''}" style="width:${Math.min(100, p * 100).toFixed(1)}%"></em></i><small class="${p > 1 ? 'neg' : ''}">${Math.round(p * 100)}%</small></div>`;
-  }).join('') : '<div class="field-hint">설정된 예산 없음</div>';
+  }).join('');
   document.getElementById('railFixedPay').innerHTML = fixedPayHtml(ym, true);
   document.getElementById('railFixedPayCount').textContent = fixedPayCount(ym);
 }
@@ -7895,7 +8176,18 @@ function syncTxChips() {
   const mSel = document.getElementById('f_method'), cSel = document.getElementById('f_category');
   const mBox = document.getElementById('f_method_chips'), cBox = document.getElementById('f_category_chips');
   if (mBox) mBox.innerHTML = [...mSel.options].map(o => `<button type="button" class="chip ${o.value === mSel.value ? 'on' : ''}" onclick="pickTxChip('f_method','${escapeHtml(o.value).replace(/'/g, "\\'")}')">${escapeHtml(o.value)}</button>`).join('');
-  if (cBox) cBox.innerHTML = [...cSel.options].map(o => `<button type="button" class="chip ${o.value === cSel.value ? 'on' : ''}" onclick="pickTxChip('f_category','${escapeHtml(o.value).replace(/'/g, "\\'")}')">${escapeHtml(o.value)}</button>`).join('');
+  if (cBox) {
+    // 지출: 그룹(변동·고정·경조·선물·여행·헌금)이 바뀌는 곳에 구분선 + 그룹 색 점
+    const G = STATE.settings.expenseCategoryGroups || {}, exp = TX_TYPE === 'expense';
+    let prevG = null;
+    cBox.innerHTML = [...cSel.options].map(o => {
+      const g = exp ? (G[o.value] || '') : null, sep = exp && prevG !== null && g !== prevG ? '<i class="chip-sep"></i>' : '';
+      prevG = g;
+      return `${sep}<button type="button" class="chip ${o.value === cSel.value ? 'on' : ''}" onclick="pickTxChip('f_category','${escapeHtml(o.value).replace(/'/g, "\\'")}')">${exp ? `<i class="cd" style="background:${catColor(o.value)}"></i>` : ''}${escapeHtml(o.value)}</button>`;
+    }).join('');
+    const on = cBox.querySelector('.chip.on');
+    if (on && cBox.scrollWidth > cBox.clientWidth) cBox.scrollLeft = Math.max(0, on.offsetLeft - cBox.offsetLeft - 24);
+  }
 }
 function pickTxChip(id, v) {
   const sel = document.getElementById(id);
@@ -7909,7 +8201,7 @@ function setupKeypadMode() {
   if (isMobile()) {
     amt.setAttribute('inputmode', 'none');
     if (!pad.innerHTML) pad.innerHTML = ['1', '2', '3', '+', '4', '5', '6', '−', '7', '8', '9', '×', '00', '0', 'back', 'C']
-      .map(k => `<button type="button" class="${'+−×'.includes(k) ? 'op' : ''} ${k === 'C' ? 'clr' : ''}" onclick="keypadPress('${k}')">${k === 'back' ? SVG.back : k}</button>`).join('');
+      .map(k => `<button type="button" class="${'+−×'.includes(k) ? 'op' : ''} ${k === 'C' ? 'clr' : ''}" onpointerdown="event.preventDefault();keypadPress('${k}')" onclick="if(event.detail===0)keypadPress('${k}')">${k === 'back' ? SVG.back : k}</button>`).join('');
   } else amt.setAttribute('inputmode', 'decimal');
 }
 function keypadPress(k) {
@@ -8078,6 +8370,301 @@ document.addEventListener('keydown', e => {
     else openTxModal('expense');
   } else if (e.key === '/' && CURRENT_VIEW === 'ledger') { e.preventDefault(); document.getElementById('ledgerSearch').focus(); }
 });
+
+
+// ============================================================
+// v5.1.0 — 카테고리 개편(과거 거래 재분류), 예산 카드(변동지출 여유), 고정비 납부 금액, 구분 순서
+// ============================================================
+
+// ---------------- 카테고리 개편: 확인 화면 ----------------
+const CM_BACKUP_KEY = 'ledger_catmig_v51_backup';
+let CM_PLAN = null, CM_FILTER = 'check', CM_Q = '';
+
+function catMigNeeded() {
+  const s = STATE.settings;
+  if (s.catV51) return false;
+  const names = new Set([...(s.expenseCategoryOrder || []), ...Object.keys(s.expenseCategoryGroups || {})]);
+  return CAT_OLD_NAMES.some(n => names.has(n));
+}
+// 시작·복원·동기화 후 호출: 옛 분류가 남아 있으면 확인 화면, 아니면 개편 완료로 표시
+function checkCategoryMigration() {
+  if (!STATE || STATE.settings.catV51) return;
+  if (!catMigNeeded()) { STATE.settings.catV51 = true; delete STATE.settings.taxRelevantCategories; saveState(); return; }
+  openCatMigration();
+}
+function cmTargets() {
+  const s = STATE.settings;
+  const keep = (s.expenseCategoryOrder || []).filter(c => !CAT_OLD_NAMES.includes(c) && !CAT_RENAME[c] && !CAT_V51_GROUPS[c]);
+  return [...CAT_V51_ORDER, ...keep];
+}
+function openCatMigration() {
+  const tx = {}; STATE.transactions.forEach(t => { tx[t.id] = t; });
+  CM_PLAN = planCategoryMigration(STATE.transactions, STATE.fixedItems).filter(p => p.conf !== 'keep')
+    .sort((a, b) => (tx[b.id].date || '').localeCompare(tx[a.id].date || ''));
+  CM_FILTER = CM_PLAN.some(p => p.conf === 'guess') ? 'check' : 'rule';
+  CM_Q = '';
+  const q = document.getElementById('cmSearch'); if (q) q.value = '';
+  renderCatMigration();
+  document.getElementById('catMigOverlay').classList.add('show');
+}
+function closeCatMigration() { document.getElementById('catMigOverlay').classList.remove('show'); }
+function cmKind(p) { return p.conf === 'guess' ? 'check' : (p.conf === 'auto' && CAT_RENAME[p.from] === p.to ? 'rename' : 'rule'); }
+function setCmFilter(f) { CM_FILTER = f; renderCatMigration(); }
+function onCmSearch(v) { CM_Q = String(v || '').trim().toLowerCase(); renderCatMigration(true); }
+function setCmTarget(id, to) {
+  const p = CM_PLAN.find(x => x.id === id);
+  if (!p) return;
+  p.to = to; p.edited = true; if (p.conf === 'guess') p.conf = 'rule';
+  renderCatMigration(true);
+}
+function renderCatMigration(keepScroll) {
+  const tx = {}; STATE.transactions.forEach(t => { tx[t.id] = t; });
+  const cnt = { check: 0, rule: 0, rename: 0 };
+  CM_PLAN.forEach(p => { cnt[cmKind(p)]++; });
+  const changed = CM_PLAN.filter(p => p.to !== p.from).length;
+  document.getElementById('cmSummary').innerHTML = [
+    ['all', '전체', CM_PLAN.length], ['check', '확인 필요', cnt.check], ['rule', '규칙 분류', cnt.rule], ['rename', '이름만 변경', cnt.rename],
+  ].map(([k, l, n]) => `<button class="cm-stat ${k} ${CM_FILTER === k ? 'on' : ''}" onclick="setCmFilter('${k}')"><span>${l}</span><b>${n.toLocaleString()}</b></button>`).join('');
+  // 이전 → 새 구분 흐름(건수)
+  const flow = {};
+  CM_PLAN.forEach(p => { const k = p.from; (flow[k] = flow[k] || {})[p.to] = (flow[k][p.to] || 0) + 1; });
+  document.getElementById('cmFlow').innerHTML = Object.entries(flow).sort((a, b) => CAT_OLD_NAMES.indexOf(a[0]) - CAT_OLD_NAMES.indexOf(b[0])).map(([from, tos]) =>
+    `<div class="cm-flow-row"><span class="cm-from">${escapeHtml(from)}</span><span class="cm-arrow">→</span><span class="cm-tos">${Object.entries(tos).sort((a, b) => b[1] - a[1]).map(([to, n]) =>
+      `<span class="cm-to"><i class="cd" style="background:${GROUP_COLORS[CAT_V51_GROUPS[to]] || '#8B9488'}"></i>${escapeHtml(to)} <b>${n}</b></span>`).join('')}</span></div>`).join('');
+  const targets = cmTargets();
+  let rows = CM_PLAN.filter(p => CM_FILTER === 'all' || cmKind(p) === CM_FILTER || (p.edited && CM_FILTER !== 'rename'));
+  if (CM_Q) rows = rows.filter(p => { const t = tx[p.id]; return [t.merchant, t.memo, p.from, p.to, t.date].join(' ').toLowerCase().includes(CM_Q); });
+  const LIMIT = 400;
+  const body = rows.slice(0, LIMIT).map(p => {
+    const t = tx[p.id];
+    const opts = targets.map(c => `<option ${c === p.to ? 'selected' : ''}>${escapeHtml(c)}</option>`).join('');
+    return `<tr class="${cmKind(p)}${p.edited ? ' edited' : ''}" data-id="${p.id}">
+      <td class="cm-d">${t.date.slice(2).replace(/-/g, '.')}</td>
+      <td class="cm-m"><b>${escapeHtml(t.merchant || '—')}</b><small>${escapeHtml(t.memo || '')}${t.tag ? ` <em>${escapeHtml(t.tag)}</em>` : ''}</small></td>
+      <td class="cm-a num">${won(t.amount)}</td>
+      <td class="cm-f">${escapeHtml(p.from)}</td>
+      <td class="cm-t"><select onchange="setCmTarget('${p.id}',this.value)" style="--cd:${GROUP_COLORS[CAT_V51_GROUPS[p.to]] || '#8B9488'}">${opts}</select></td>
+      <td class="cm-w">${escapeHtml(p.edited ? '직접 지정' : p.why)}</td></tr>`;
+  }).join('');
+  const wrap = document.getElementById('cmTableWrap');
+  const top = wrap.scrollTop;
+  document.getElementById('cmRows').innerHTML = body || `<tr><td colspan="6" class="cm-empty">해당 거래 없음</td></tr>`;
+  document.getElementById('cmMore').textContent = rows.length > LIMIT ? `${LIMIT} / ${rows.length.toLocaleString()}건 표시` : '';
+  if (keepScroll) wrap.scrollTop = top; else wrap.scrollTop = 0;
+  document.getElementById('cmApplyBtn').textContent = `적용 (${changed.toLocaleString()}건 변경)`;
+}
+
+function applyCatMigration() {
+  const s = STATE.settings;
+  const byId = {}; CM_PLAN.forEach(p => { byId[p.id] = p; });
+  // 되돌리기용 변경 전 기록(용량을 줄이려고 바뀌는 값만)
+  const backup = {
+    at: new Date().toISOString(),
+    settings: { expenseCategoryGroups: JSON.parse(JSON.stringify(s.expenseCategoryGroups)), expenseCategoryOrder: s.expenseCategoryOrder.slice(), categoryBudgets: JSON.parse(JSON.stringify(s.categoryBudgets || {})), taxRelevantCategories: s.taxRelevantCategories },
+    tx: [], fixed: (STATE.fixedItems || []).map(it => [it.id, it.category]), tpl: (STATE.recurringTemplates || []).map(tp => tp.category), categoryMap: Object.assign({}, STATE.categoryMap),
+  };
+  let n = 0;
+  STATE.transactions.forEach(t => {
+    const p = byId[t.id];
+    if (!p || p.to === t.category) return;
+    backup.tx.push([t.id, t.category]);
+    t.category = p.to; n++;
+  });
+  // 설정: 새 분류 + 사용자가 따로 만든 구분은 그룹째 유지
+  const oldGroups = s.expenseCategoryGroups || {};
+  const custom = (s.expenseCategoryOrder || []).filter(c => !CAT_OLD_NAMES.includes(c) && !CAT_RENAME[c] && !CAT_V51_GROUPS[c]);
+  const groups = Object.assign({}, CAT_V51_GROUPS);
+  custom.forEach(c => { groups[c] = oldGroups[c] || 'general'; });
+  const order = [];
+  Object.keys(GROUP_LABELS).forEach(g => {
+    CAT_V51_ORDER.filter(c => CAT_V51_GROUPS[c] === g).forEach(c => order.push(c));
+    custom.filter(c => groups[c] === g).forEach(c => order.push(c));
+  });
+  custom.filter(c => !order.includes(c)).forEach(c => order.push(c));
+  // 거래에만 남아 있는 이름(설정에서 지운 구분 등)도 목록에 보이도록
+  STATE.transactions.forEach(t => { if (t.type === 'expense' && t.category && !order.includes(t.category)) { order.push(t.category); if (!groups[t.category]) groups[t.category] = 'general'; } });
+  const budgets = {};
+  Object.entries(s.categoryBudgets || {}).forEach(([c, v]) => {
+    const to = CAT_BUDGET_MOVE[c] || (CAT_OLD_NAMES.includes(c) ? null : c);
+    if (to && v && !budgets[to]) budgets[to] = v;
+  });
+  s.expenseCategoryGroups = groups; s.expenseCategoryOrder = order; s.categoryBudgets = budgets;
+  delete s.taxRelevantCategories;
+  // 고정비 항목: 연결된 거래의 새 구분 다수결, 없으면 이름으로 분류
+  (STATE.fixedItems || []).forEach(it => {
+    if (!it.category || !(CAT_OLD_NAMES.includes(it.category) || CAT_RENAME[it.category])) return;
+    const linked = STATE.transactions.filter(t => t.fixedId === it.id).map(t => t.category);
+    it.category = linked.length ? fxMostCommon(linked) : classifyTxV51({ category: it.category, merchant: it.name, memo: '', amount: Number(it.amount) || 0 }).to;
+  });
+  (STATE.recurringTemplates || []).forEach(tp => {
+    if (!tp.category || !CAT_OLD_NAMES.includes(tp.category) && !CAT_RENAME[tp.category]) return;
+    tp.category = classifyTxV51({ category: tp.category, merchant: tp.merchant, memo: tp.memo || tp.name, amount: Number(tp.amount) || 0, tag: tp.tag }).to;
+  });
+  // 거래처 → 구분 학습: 날짜 순으로 다시 만들어 최신 구분이 남게
+  STATE.categoryMap = buildCategoryMap(STATE.transactions.slice().sort((a, b) => (a.date || '').localeCompare(b.date || '')));
+  s.catV51 = true;
+  try { localStorage.setItem(CM_BACKUP_KEY, JSON.stringify(backup)); } catch (e) { console.warn('개편 되돌리기 기록 저장 실패', e); }
+  logActivity('settings', 'category', `카테고리 개편 — 거래 ${n}건 재분류`, null, null);
+  saveState();
+  closeCatMigration();
+  populateSelects();
+  switchView(CURRENT_VIEW || 'dashboard');
+  toast(`카테고리 개편 완료 · ${n.toLocaleString()}건 변경`, '되돌리기', undoCatMigration);
+}
+function catMigBackup() { try { return JSON.parse(localStorage.getItem(CM_BACKUP_KEY) || 'null'); } catch (e) { return null; } }
+function undoCatMigration() {
+  const b = catMigBackup();
+  if (!b) { toast('되돌릴 기록이 없습니다.'); return; }
+  const s = STATE.settings;
+  const prev = {}; b.tx.forEach(([id, c]) => { prev[id] = c; });
+  STATE.transactions.forEach(t => { if (prev[t.id] != null) t.category = prev[t.id]; });
+  s.expenseCategoryGroups = b.settings.expenseCategoryGroups; s.expenseCategoryOrder = b.settings.expenseCategoryOrder; s.categoryBudgets = b.settings.categoryBudgets;
+  if (b.settings.taxRelevantCategories) s.taxRelevantCategories = b.settings.taxRelevantCategories;
+  const fx = {}; (b.fixed || []).forEach(([id, c]) => { fx[id] = c; });
+  (STATE.fixedItems || []).forEach(it => { if (it.id in fx) it.category = fx[it.id]; });
+  (STATE.recurringTemplates || []).forEach((tp, i) => { if (b.tpl && i < b.tpl.length) tp.category = b.tpl[i]; });
+  STATE.categoryMap = b.categoryMap || STATE.categoryMap;
+  s.catV51 = false;
+  try { localStorage.removeItem(CM_BACKUP_KEY); } catch (e) {}
+  logActivity('undo', 'category', `카테고리 개편 되돌림 — 거래 ${b.tx.length}건`, null, null);
+  saveState();
+  populateSelects();
+  switchView(CURRENT_VIEW || 'dashboard');
+  toast('카테고리 개편을 되돌렸습니다.');
+}
+function renderCatMigSetting() {
+  const el = document.getElementById('catMigSetting');
+  if (!el) return;
+  const s = STATE.settings, b = catMigBackup();
+  el.innerHTML = (!s.catV51 && catMigNeeded() ? `<button class="btn sm" onclick="openCatMigration()">카테고리 개편</button>` : '') +
+    (s.catV51 && b ? `<button class="btn sm secondary" onclick="if(confirm('카테고리 개편 전으로 되돌릴까요?')) undoCatMigration()">개편 되돌리기</button>` : '');
+}
+
+// 가져오기·입력 때 구분 추천: 거래처 학습 → 글자 특성(새 분류 기준)
+function guessCategoryV51(merchant, memo, amount, tag) {
+  const s = STATE.settings;
+  const has = c => s.expenseCategoryOrder.includes(c) ? c : null;
+  if (merchant && STATE.categoryMap[merchant] && has(STATE.categoryMap[merchant])) return STATE.categoryMap[merchant];
+  const text = cmNorm((merchant || '') + ' ' + (memo || '')), memoN = cmNorm(memo), mer = cmNorm(merchant);
+  if (CM.event.test(text)) return has('경조사');
+  if (CM.gift.test(text)) return has('선물');
+  if (CM.travelTag.includes(tag) || CM.travel.test(text)) return has('여행');
+  if (CM.feeWord.test(memoN)) return has('모임');
+  if (CM.telecom.test(text)) return has('통신');
+  if (CM.insurance.test(text)) return has('보험');
+  if (CM.subscribe.test(text)) return has('구독');
+  if (CM.donation.test(text)) return has('후원');
+  if (CM.health.test(text)) return has('건강·미용');
+  if (CM.transport.test(text)) return has('교통');
+  if (CM.leisure.test(text)) return has('여가');
+  if (CM.mealMemo.test(memoN)) return has(cmMeetSignal(memo) ? '모임' : '식사');
+  if (CM.snackMemo.test(memoN) || CM.cafeShop.test(mer)) return has('카페·간식');
+  if (CM.fastFood.test(mer)) return has(Number(amount) <= 7000 ? '카페·간식' : '식사');
+  if (CM.shopping.test(text)) return has('쇼핑');
+  return null;
+}
+
+// ---------------- 지출 구분 순서 ----------------
+function moveExpenseCategory(cat, dir) {
+  const o = STATE.settings.expenseCategoryOrder, i = o.indexOf(cat), j = i + dir;
+  if (i < 0 || j < 0 || j >= o.length) return;
+  [o[i], o[j]] = [o[j], o[i]];
+  saveState(); renderSettings(); populateSelects();
+}
+
+// ---------------- 예산 현황: 변동지출 여유 중심 ----------------
+function realYmNow() { const d = new Date(); return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}`; }
+function budgetModel(agg, ym) {
+  const L = agg.budget.generalBudget || 0;
+  const fixedPaid = agg.groupSum.fixed || 0, varUsed = agg.groupSum.general || 0;
+  const realYm = realYmNow();
+  // 아직 안 낸 고정비(이번 달·앞으로의 달만). 변동·고정 그룹에 속한 항목만 생활예산에서 미리 뗀다
+  let pending = 0, pendingN = 0;
+  if (ym >= realYm) fixedPayList(ym).forEach(f => {
+    if (f.paid || !(f.amount > 0)) return;
+    const g = STATE.settings.expenseCategoryGroups[f.cat];
+    if (g && g !== 'general' && g !== 'fixed') return;
+    pending += f.amount; pendingN++;
+  });
+  const varBudget = L - fixedPaid - pending;
+  const left = varBudget - varUsed;
+  const [y, m] = ym.split('-').map(Number), dim = lastDayOfMonth(y, m), now = new Date();
+  const isCur = ym === realYm;
+  const daysLeft = isCur ? dim - now.getDate() + 1 : (ym > realYm ? dim : 0);
+  const perDay = daysLeft > 0 && left > 0 ? Math.floor(left / daysLeft / 100) * 100 : 0;
+  const pace = isCur ? now.getDate() / dim : null;
+  const varPct = varBudget > 0 ? varUsed / varBudget : (varUsed > 0 ? Infinity : 0);
+  const state = left < 0 ? 'over' : (pace != null && varPct > pace + 0.05 ? 'warn' : 'ok');
+  const otherIncome = (agg.income.byCategory['일반'] || 0) + (agg.income.byCategory['이자'] || 0);
+  const salary = agg.income.byCategory[STATE.settings.salaryCategoryName] || 0;
+  return { L, fixedPaid, pending, pendingN, varUsed, varBudget, left, daysLeft, perDay, pace, varPct, state, isCur, past: ym < realYm,
+    extra: agg.groupSum.extra || 0, otherIncome, travel: agg.groupSum.travel || 0, tithe: agg.groupSum.tithe || 0, titheBase: agg.budget.titheBudget || 0, salary };
+}
+function budgetCardHtml(agg, ym, compact) {
+  const b = budgetModel(agg, ym);
+  if (!(b.L > 0)) return `<div class="bud-none">생활예산 미설정 · <button class="link-btn" onclick="switchView('settings')">설정</button></div>`;
+  const pct = v => Math.max(0, Math.min(100, v / b.L * 100));
+  const wFix = pct(b.fixedPaid), wPend = Math.min(100 - wFix, pct(b.pending)), wVar = Math.min(100 - wFix - wPend, pct(b.varUsed));
+  const paceLeft = b.pace != null && b.varBudget > 0 ? Math.min(100, wFix + wPend + pct(b.varBudget) * b.pace) : null;
+  const heroLabel = b.left >= 0 ? (b.past ? '변동지출 남긴 돈' : '변동지출 남은 돈') : '변동지출 초과';
+  const heroSub = b.left >= 0
+    ? (b.daysLeft > 0 ? `하루 ${won(b.perDay)} · ${b.daysLeft}일 남음` : `변동 예산 ${won(b.varBudget)} 중 ${Math.round(b.varPct * 100)}% 사용`)
+    : `변동 예산 ${won(Math.max(0, b.varBudget))} · 사용 ${won(b.varUsed)}`;
+  const extraLeft = b.otherIncome - b.extra;
+  const extraNote = b.extra === 0 && b.otherIncome === 0 ? '' : (extraLeft >= 0 ? `부수입 ${won(b.otherIncome)} · ${won(extraLeft)} 남음` : `<span class="neg">부수입보다 ${won(-extraLeft)} 더 씀</span>`);
+  const titheNote = b.salary > 0 ? (b.tithe >= b.titheBase ? `십일조 ${won(b.titheBase)} · 완료` : `십일조 ${won(b.titheBase)} · ${won(b.titheBase - b.tithe)} 남음`) : '급여 입금 전';
+  return `<div class="bud ${b.state}${compact ? ' compact' : ''}">
+    <div class="bud-hero">
+      <div><div class="bud-k">${heroLabel}</div>
+      <div class="bud-v">${won(Math.abs(b.left))}</div>
+      <div class="bud-sub">${heroSub}</div></div>
+      ${compact ? '' : `<div class="bud-lim"><span>생활예산</span><b>${won(b.L)}</b></div>`}
+    </div>
+    <div class="bud-bar" title="생활예산 ${won(b.L)}">
+      <i class="seg fix" style="width:${wFix.toFixed(2)}%"></i><i class="seg pend" style="width:${wPend.toFixed(2)}%"></i><i class="seg var" style="width:${wVar.toFixed(2)}%"></i>
+      ${paceLeft != null ? `<em class="bud-pace" style="left:calc(${paceLeft.toFixed(2)}% - 1px)" title="오늘까지 지난 날짜 비율"></em>` : ''}
+    </div>
+    <div class="bud-split">
+      <div class="bs fix"><span><i></i>고정</span><b>${won(b.fixedPaid + b.pending)}</b><small>${b.pending > 0 ? (compact ? `예정 ${won(b.pending)}` : `납부 ${won(b.fixedPaid)} · 예정 ${won(b.pending)}`) : '납부 완료'}</small></div>
+      <div class="bs var"><span><i></i>변동</span><b>${won(b.varUsed)}</b><small>${b.varBudget > 0 ? `${won(b.varBudget)} 중 ${Math.round(b.varPct * 100)}%${b.pace != null && !compact ? ` · 날짜 ${Math.round(b.pace * 100)}%` : ''}` : '변동 예산 없음'}</small></div>
+    </div>
+    ${compact ? '' : `<div class="bud-rows">
+      <div class="br"><i style="background:${GROUP_COLORS.extra}"></i><span>경조·선물</span><small>${extraNote}</small><b>${won(b.extra)}</b></div>
+      <div class="br"><i style="background:${GROUP_COLORS.travel}"></i><span>여행</span><small></small><b>${won(b.travel)}</b></div>
+      <div class="br"><i style="background:${GROUP_COLORS.tithe}"></i><span>헌금</span><small>${titheNote}</small><b>${won(b.tithe)}</b></div>
+    </div>`}
+  </div>`;
+}
+function renderBudgetCard(agg) {
+  const el = document.getElementById('budgetGauges');
+  if (!el) return;
+  el.innerHTML = budgetCardHtml(agg, CURRENT_YM);
+}
+
+// ---------------- 고정비 납부: 금액 진행 ----------------
+function fixedPaySummaryHtml(ym) {
+  const list = fixedPayList(ym);
+  if (!list.length) return '';
+  const paid = list.filter(f => f.paid).reduce((a, f) => a + (f.amount || 0), 0);
+  const total = list.reduce((a, f) => a + (f.amount || 0), 0);
+  const p = total > 0 ? paid / total : 0;
+  return `<div class="fp-sum"><div class="fp-sum-t"><b>${won(paid)}</b><span>/ ${won(total)}</span><small>${won(total - paid)} 남음</small></div><div class="fp-sum-bar"><i style="width:${(p * 100).toFixed(1)}%"></i></div></div>`;
+}
+
+// 구분 점 색 = 소속 그룹 색(같은 그룹 안에서는 명도만 조금씩) — 고정·변동이 한눈에 구분되게 (app_v5의 catColor 대체)
+const CAT_SHADES = [0, 0.28, 0.14, 0.42, 0.07, 0.35, 0.21, 0.49];
+function mixHex(hex, t) {
+  const n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255;
+  const m = v => Math.round(v + (255 - v) * t).toString(16).padStart(2, '0');
+  return '#' + m(r) + m(g) + m(b);
+}
+function catColor(cat) {
+  const s = STATE.settings, g = (s.expenseCategoryGroups || {})[cat];
+  const base = GROUP_COLORS[g];
+  if (!base) { let h = 0; for (const ch of String(cat || '')) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return CAT_DOT_COLORS[h % CAT_DOT_COLORS.length]; }
+  const k = (s.expenseCategoryOrder || []).filter(c => s.expenseCategoryGroups[c] === g).indexOf(cat);
+  return mixHex(base, CAT_SHADES[Math.max(0, k) % CAT_SHADES.length]);
+}
 
 </script>
 </body>
